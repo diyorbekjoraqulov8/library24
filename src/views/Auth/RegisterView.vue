@@ -1,10 +1,10 @@
 <template>
   <div class="bg-white md:flex">
-    <div class="hidden md:block md:w-2/4 bg-reg-bg bg-cover bg-no-repeat"></div>
+    <div class="hidden md:block md:w-2/4 bg-[url('/reg-bg.jpg')] bg-cover bg-no-repeat"></div>
     <div class="flex flex-col md:w-2/4 justify-center items-center h-[100vh]">
       <form @submit.prevent class="flex flex-col gap-2 ss:w-72 lg:w-80">
         <div class="mb-2">
-          <img class="mx-auto w-20 xl:w-24 2xl:w-auto" src="@/assets/Logo.svg" alt="">
+          <img class="mx-auto w-20 xl:w-24 2xl:w-auto" src="/logo.svg" alt="">
         </div>
         <div class="my-5">
           <p class="text-form-t-color-06 text-base">Welcome back!</p>
