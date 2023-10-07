@@ -25,6 +25,6 @@
 </template>
 
 <script setup>
-import InputComp from '../../components/Form/InputComp.vue';
-import ButtonComp from '../../components/Form/ButtonComp.vue';
+import InputComp from '@/components/Form/InputComp.vue';
+import ButtonComp from '@/components/Form/ButtonComp.vue';
 </script>
