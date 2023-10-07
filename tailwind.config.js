@@ -7,7 +7,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        "input-bg": "#F4F4FF",
+        "input-bg-color": "#F4F4FF",
+        "form-t-color": "#090937",
+        "form-t-color-06": "#09093799",
+        "btn-orange": "#EF6B4A",
+        "btn-orange-hover": "#e66342",
       },
     },
     screens: {
