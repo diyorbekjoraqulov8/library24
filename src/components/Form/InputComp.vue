@@ -1,9 +1,9 @@
 <template>
   <label class="flex flex-col lg:gap-1 mb-3" :for="inpName">
-    <span class="text-sm text-form-t-color">{{ inpName }}</span>
-    <input class="bg-input-bg-color text-form-t-color-06 py-2 px-2.5 lg:py-2.5 lg:px-3 2xl:p-4 text-sm outline-none rounded"
-          :id="inpName" 
-          :type="inpType" 
+    <span class="xl:pb-2.5 text-form-t-color text-sm xl:text-[20px] font-semibold">{{ inpName }}</span>
+    <input class="bg-input-bg-color text-form-t-color-06 xl:text-[20px] font-normal py-2 px-2.5 lg:py-2.5 lg:px-3 xl:p-4 text-sm outline-none rounded"
+          :id="inpName"
+          :type="inpType"
           :placeholder="inpPholder" />
   </label>
 </template>

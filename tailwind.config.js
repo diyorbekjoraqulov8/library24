@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        "manrope": ["Manrope", "sans-serif"],
+      },
       colors: {
         "input-bg-color": "#F4F4FF",
         "form-t-color": "#090937",
@@ -27,7 +30,7 @@ export default {
       lg: "1024px",
       // => @media (min-width: 1024px) { ... }
 
-      xl: "1280px",
+      xl: "1380px",
       // => @media (min-width: 1280px) { ... }
 
       "2xl": "1536px",
