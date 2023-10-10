@@ -2,7 +2,7 @@
   <div class="bg-white md:flex">
     <div class="hidden md:block md:w-2/4 bg-[url('/reg-bg.jpg')] bg-cover bg-no-repeat"></div>
     <div class="flex flex-col md:w-2/4 justify-center items-center h-[100vh] overflow-auto py-4">
-      <form @submit.prevent class="flex flex-col gap-2 w-full ss:w-96 font-manrope h-full px-6">
+      <form @submit.prevent="submit" class="flex flex-col gap-2 w-full ss:w-96 font-manrope h-full px-6">
         <div class="mb-2 xl:mb-3">
           <img class="mx-auto w-20 xl:w-auto" src="/logo.svg" alt="">
         </div>
