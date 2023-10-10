@@ -1,38 +1,69 @@
 <template>
   <div class="bg-white md:flex">
     <div class="hidden md:block md:w-2/4 bg-[url('/reg-bg.jpg')] bg-cover bg-no-repeat"></div>
-    <div class="flex flex-col md:w-2/4 justify-center items-center h-[100vh]">
-      <form @submit.prevent class="flex flex-col gap-2 ss:w-72 lg:w-80 xl:w-96 font-manrope">
-        <div class="mb-2 xl:mb-5">
+    <div class="flex flex-col md:w-2/4 justify-center items-center h-[100vh] overflow-auto py-4">
+      <form @submit.prevent class="flex flex-col gap-2 w-full ss:w-96 font-manrope h-full px-6">
+        <div class="mb-2 xl:mb-3">
           <img class="mx-auto w-20 xl:w-auto" src="/logo.svg" alt="">
         </div>
-        <div class="my-5 xl:my-16">
-          <p class="text-form-t-color-06 xl:pb-2 text-base xl:text-[24px]">Welcome back!</p>
-          <h2 class="text-form-t-color text-2xl xl:text-[32px] font-bold">Login to your account</h2>
+        <div class="my-5 xl:my-7">
+          <h2 class="text-form-t-color text-2xl font-bold">Login to your account</h2>
         </div>
-        <div class="flex flex-col xl:gap-9">
-
-          <div class="flex flex-col lg:gap-1 mb-3">
-            <LabelComp>Name</LabelComp>
-            <InputComp placeholder="John Doe" type="text" name="name" />
+        <div class="flex flex-col">
+          <div class="flex flex-col gap-1.5 mb-3">
+            <label 
+            class="
+              text-sm
+              xl:text-lg
+              font-semibold
+            "
+            >Name</label>
+            <InputComp 
+            id="name"
+            :required="true"
+            v-model:input="userName"
+            :error="error && error.type == 'userName' ? error.message : ''"
+            inputType="text"/>
           </div>
 
-          <div class="flex flex-col lg:gap-1 mb-3">
-            <LabelComp>E-mail</LabelComp>
-            <InputComp placeholder="someone@example.com" type="email" name="email" />
+          <div class="flex flex-col gap-1.5 mb-3">
+            <label 
+            class="
+              text-sm
+              xl:text-lg
+              font-semibold
+            "
+            >E-mail</label>
+            <InputComp 
+            id="email"
+            :required="true"
+            v-model:input="userEmail"
+            :error="error && error.type == 'userEmail' ? error.message : ''"
+            inputType="email"/>
           </div>
 
-          <div class="flex flex-col lg:gap-1 mb-3">
-            <LabelComp>Password</LabelComp>
-            <InputComp placeholder="Password" type="password" name="password" />
+          <div class="flex flex-col gap-1.5">
+            <label 
+            class="
+              text-sm
+              xl:text-lg
+              font-semibold
+            "
+            >Password</label>
+            <InputComp 
+            id="password"
+            :required="true"
+            v-model:input="userPassword"
+            :error="error && error.type == 'userPassword' ? error.message : ''"
+            inputType="password"/>
           </div>
           
-          
-          <div class="flex flex-col gap-2 xl:gap-2.5">
-            <ButtonComp class="bg-btn-orange border border-btn-orange hover:bg-btn-orange-hover text-white">Register</ButtonComp>
+          <div class="flex flex-col gap-2 xl:gap-2.5 mt-4">
+            <ButtonComp 
+            @click="submit"
+            class="bg-btn-orange border border-btn-orange hover:bg-btn-orange-hover text-white">Register</ButtonComp>
             <ButtonComp class="border hover:bg-slate-100">Login</ButtonComp>
           </div>
-
         </div>
       </form>
     </div>
@@ -40,7 +71,50 @@
 </template>
 
 <script setup>
-import LabelComp from '@/components/Form/LabelComp.vue';
+import { ref } from "vue";
+import { useRouter } from 'vue-router'
 import InputComp from '@/components/Form/InputComp.vue';
 import ButtonComp from '@/components/Form/ButtonComp.vue';
+
+let userName = ref('')
+let userEmail = ref('')
+let userPassword = ref('')
+
+let isWorking = ref(false)
+let error = ref(null)
+
+const router = useRouter()
+
+const submit = async () => {
+    isWorking.value = true
+    error.value = null
+
+    if (!userName.value) {
+      error.value = {
+        type: 'userName',
+        message: 'A user name is required'
+      }
+    } else if (!userEmail.value) {
+      error.value = {
+        type: 'userEmail',
+        message: 'An user email is required'
+      }
+    } else if (!userPassword.value) {
+      error.value = {
+        type: 'userPassword',
+        message: 'A user password is required'
+      }
+    } 
+
+    if (error.value) {
+      isWorking.value = false
+      return
+    }
+
+    isWorking.value = false
+
+    return router.push({
+      name: 'home',
+    })
+}
 </script>

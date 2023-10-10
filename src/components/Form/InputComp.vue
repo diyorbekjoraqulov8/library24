@@ -1,7 +1,81 @@
-<template lang="">
-  <input class="bg-input-bg-color text-form-t-color-06 xl:text-[20px] font-normal py-2 px-2.5 lg:py-2.5 lg:px-3 xl:p-4 text-sm outline-none rounded" />
+<template>
+  <div>
+    <input 
+      v-if="inputType != 'textarea'"
+      :id="id"
+      :maxlength="max"
+      :required="required"
+      :disabled="disabled || false"
+      class="
+      w-full
+      text-gray-800
+      border
+      text-sm
+      border-[#EFF0EB]
+      rounded-lg
+      p-3
+      placeholder-gray-500
+      focus:outline-none
+      xl:p-3.5
+      " 
+      @focus="isFocused = true"
+      @blur="isFocused = false"
+      :class="
+          {'border-gray-900': isFocused},
+          {'border-red-500': error},
+          {'bg-gray-200': disabled},
+          {'bg-input-bg-color': inputComputed && !isFocused}
+      "
+      :type="inputType"
+      v-model="inputComputed"
+      autocomplete="off"
+    >
+    <textarea
+      v-else
+      :id="id"
+      :required="required"
+      :maxlength="max"
+      :disabled="disabled || false"
+      class="
+          block
+          w-full
+          bg-white
+          text-gray-800
+          border
+          text-sm
+          border-[#EFF0EB]
+          rounded-lg
+          min-h-[70px]
+          max-h-[170px]
+          p-3
+          placeholder-gray-500
+          focus:outline-none
+      " 
+      @focus="isFocused = true"
+      @blur="isFocused = false"
+      :class="
+          {'border-gray-900': isFocused},
+          {'border-red-500': error}
+      "
+      :type="inputType"
+      v-model="inputComputed"
+      autocomplete="off"
+    >
+    </textarea>
+    <span v-if="error" class="text-red-500 text-[14px] font-semibold">
+        {{ error }}
+    </span>
+  </div>
 </template>
 
 <script setup>
-
+import { ref, computed, toRefs } from "vue";
+const emit = defineEmits(['update:input']);
+const props = defineProps(['input', 'inputType', 'error', 'required', 'id'])
+const { input, max, inputType, error, required, disabled, id } = toRefs(props)
+let isFocused = ref(false)
+const inputComputed = computed({
+  get: () => input.value,
+  set: (val) => emit('update:input', val)
+})
 </script>

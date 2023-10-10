@@ -1,5 +1,5 @@
 <template>
-  <button class="w-full text-base xl:text-[20px] p-1.5 xl:p-4 font-semibold">
+  <button class="block w-full text-sm xl:text-lg p-2.5 xl:p-3 font-semibold rounded-lg">
     <slot></slot>
   </button>
 </template>
