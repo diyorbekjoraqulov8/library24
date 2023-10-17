@@ -11,58 +11,40 @@
         </div>
         <div class="flex flex-col">
           <div class="flex flex-col gap-1.5 mb-3">
-            <label 
-            class="
+            <label class="
               text-sm
               xl:text-lg
               font-semibold
-            "
-            >Name</label>
-            <InputComp 
-            id="name"
-            :required="true"
-            v-model:input="userName"
-            :error="error && error.type == 'userName' ? error.message : ''"
-            inputType="text"/>
-          </div>
-
-          <div class="flex flex-col gap-1.5 mb-3">
-            <label 
-            class="
-              text-sm
-              xl:text-lg
-              font-semibold
-            "
-            >E-mail</label>
-            <InputComp 
-            id="email"
-            :required="true"
-            v-model:input="userEmail"
-            :error="error && error.type == 'userEmail' ? error.message : ''"
-            inputType="email"/>
+            ">E-mail</label>
+            <InputComp id="email" :required="true" v-model:input="userEmail"
+              :error="error && error.type == 'userEmail' ? error.message : ''" inputType="email" />
           </div>
 
           <div class="flex flex-col gap-1.5">
-            <label 
-            class="
+            <label class="
               text-sm
               xl:text-lg
               font-semibold
-            "
-            >Password</label>
-            <InputComp 
-            id="password"
-            :required="true"
-            v-model:input="userPassword"
-            :error="error && error.type == 'userPassword' ? error.message : ''"
-            inputType="password"/>
+            ">Password</label>
+            <InputComp id="password" :required="true" v-model:input="userPassword"
+              :error="error && error.type == 'userPassword' ? error.message : ''" inputType="password" />
           </div>
-          
+
+          <div class="flex flex-col gap-1.5 mb-3">
+            <label class="
+              text-sm
+              xl:text-lg
+              font-semibold
+            ">Name</label>
+            <InputComp id="name" :required="true" v-model:input="userName"
+              :error="error && error.type == 'userName' ? error.message : ''" inputType="text" />
+          </div>
+
+
           <div class="flex flex-col gap-2 xl:gap-2.5 mt-4">
-            <ButtonComp 
-            @click="submit"
-            class="bg-btn-orange border border-btn-orange hover:bg-btn-orange-hover text-white">Register</ButtonComp>
-            <ButtonComp class="border hover:bg-slate-100">Login</ButtonComp>
+            <ButtonComp @click="submit"
+              class="bg-btn-orange border border-btn-orange hover:bg-btn-orange-hover text-white">Login</ButtonComp>
+            <ButtonComp class="border hover:bg-slate-100">Register</ButtonComp>
           </div>
         </div>
       </form>
@@ -71,5 +53,44 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
+import { useRouter } from 'vue-router'
+import InputComp from '@/components/Form/InputComp.vue';
+import ButtonComp from '@/components/Form/ButtonComp.vue';
 
+let userEmail = ref('')
+let userPassword = ref('')
+
+let isWorking = ref(false)
+let error = ref(null)
+
+const router = useRouter()
+
+const submit = async () => {
+  isWorking.value = true
+  error.value = null
+  
+  if (!userEmail.value) {
+    error.value = {
+      type: 'userEmail',
+      message: 'An user email is required'
+    }
+  } else if (!userPassword.value) {
+    error.value = {
+      type: 'userPassword',
+      message: 'A user password is required'
+    }
+  }
+
+  if (error.value) {
+    isWorking.value = false
+    return
+  }
+
+  isWorking.value = false
+
+  return router.push({
+    name: 'home',
+  })
+}
 </script>
