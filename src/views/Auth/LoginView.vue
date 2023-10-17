@@ -30,21 +30,24 @@
               :error="error && error.type == 'userPassword' ? error.message : ''" inputType="password" />
           </div>
 
-          <div class="flex flex-col gap-1.5 mb-3">
+          <div class="flex items-center justify-start mt-2.5 gap-1.5">
+            <InputComp id="remember" :required="false" v-model:input="rememberMe"
+              inputType="checkbox" />
             <label class="
-              text-sm
-              xl:text-lg
+              text-xs
+              xl:text-base
               font-semibold
-            ">Name</label>
-            <InputComp id="name" :required="true" v-model:input="userName"
-              :error="error && error.type == 'userName' ? error.message : ''" inputType="text" />
+              text-indigo-600
+            ">Remember Me</label>
           </div>
 
 
-          <div class="flex flex-col gap-2 xl:gap-2.5 mt-4">
+          <div class="flex flex-col gap-2 xl:gap-2.5 mt-20">
             <ButtonComp @click="submit"
               class="bg-btn-orange border border-btn-orange hover:bg-btn-orange-hover text-white">Login</ButtonComp>
-            <ButtonComp class="border hover:bg-slate-100">Register</ButtonComp>
+            <router-link to="/register">
+              <ButtonComp class="border hover:bg-slate-100">Register</ButtonComp>
+            </router-link>
           </div>
         </div>
       </form>
@@ -60,6 +63,7 @@ import ButtonComp from '@/components/Form/ButtonComp.vue';
 
 let userEmail = ref('')
 let userPassword = ref('')
+let rememberMe = ref(false)
 
 let isWorking = ref(false)
 let error = ref(null)
