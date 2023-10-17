@@ -4,6 +4,7 @@
       v-if="inputType != 'textarea'"
       :id="id"
       :maxlength="max"
+      :minlength="min"
       :required="required"
       :disabled="disabled || false"
       class="
@@ -71,8 +72,8 @@
 <script setup>
 import { ref, computed, toRefs } from "vue";
 const emit = defineEmits(['update:input']);
-const props = defineProps(['input', 'inputType', 'error', 'required', 'id'])
-const { input, max, inputType, error, required, disabled, id } = toRefs(props)
+const props = defineProps(['input', 'inputType', 'error', 'required', 'id','min'])
+const { input, max, inputType, error, required, disabled, id, min } = toRefs(props)
 let isFocused = ref(false)
 const inputComputed = computed({
   get: () => input.value,
