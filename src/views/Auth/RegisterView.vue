@@ -59,10 +59,10 @@
           </div>
           
           <div class="flex flex-col gap-2 xl:gap-2.5 mt-4">
-            <router-link to="/login">
-              <ButtonComp 
+            <ButtonComp 
               @click="submit"
               class="bg-btn-orange border border-btn-orange hover:bg-btn-orange-hover text-white">Register</ButtonComp>
+            <router-link to="/login">
               <ButtonComp class="border hover:bg-slate-100">Login</ButtonComp>
             </router-link>
           </div>
