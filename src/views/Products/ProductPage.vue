@@ -1,6 +1,6 @@
 <template>
   <div>
-    Navbar Component
+    Product
   </div>
 </template>
 

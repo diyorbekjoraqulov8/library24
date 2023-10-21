@@ -1,6 +1,6 @@
 <template>
   <div>
-    Navbar Component
+    Index
   </div>
 </template>
 
