@@ -68,8 +68,8 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from 'vue-router'
-import InputComp from '@/components/Form/InputComp.vue';
-import ButtonComp from '@/components/Form/ButtonComp.vue';
+import InputComp from '@/components/UI/InputComp.vue';
+import ButtonComp from '@/components/UI/ButtonComp.vue';
 import { validateEmail } from '@/directives/auth.js';
 
 let userEmail = ref('')
