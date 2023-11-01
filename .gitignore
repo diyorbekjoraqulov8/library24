@@ -31,3 +31,9 @@ coverage
 __pycache__
 /env
 *.env
+
+*.png
+*.jpeg
+*.img
+
+*.zip

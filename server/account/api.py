@@ -14,11 +14,8 @@ def signup(r):
     form = SignupForm({
         'name': data.get('name'),
         'email': data.get('email'),
-        'password1': data.get('password1'),
-        'password2': data.get('password2'),
+        'password': data.get('password'),
     })
-    print(data)
-    print(form.is_valid())
     if form.is_valid():
         user = form.save()
          
