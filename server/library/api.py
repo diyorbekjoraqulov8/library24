@@ -3,7 +3,7 @@ from rest_framework import status, generics, permissions
 from rest_framework.filters import SearchFilter
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 
-from .serializers import SimpleAuthorSerializer, AuthorSerializer, BookSerializer
+from .serializers import SimpleAuthorSerializer, AuthorSerializer, BookSerializer, SimpleBookSerializer
 from .models import Book, Author
 
 class BookRetrieveUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -34,7 +34,7 @@ class BookListCreateAPIView(generics.ListCreateAPIView):
     
 class AuthorListCreateAPIView(generics.ListCreateAPIView):
     queryset = Author.objects.all().order_by('id')  
-    serializer_class = AuthorSerializer
+    serializer_class = SimpleAuthorSerializer
     lookup_field = 'id'
     filter_backends = [SearchFilter]
     search_fields = ['first_name', 'last_name']

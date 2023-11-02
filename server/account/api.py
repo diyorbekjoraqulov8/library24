@@ -14,12 +14,14 @@ def signup(r):
     form = SignupForm({
         'name': data.get('name'),
         'email': data.get('email'),
-        'password': data.get('password'),
+        'password1': data.get('password'),
+        'password2': data.get('password'),
     })
+    print(form.is_valid())
     if form.is_valid():
         user = form.save()
          
-        # TODO: verification e-mail
+        # TODO: e-mail verification 
 
     else:
         message = 'error'

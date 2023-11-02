@@ -43,12 +43,14 @@ class AuthorSerializer(serializers.ModelSerializer):
         ]
 
 class BookSerializer(serializers.ModelSerializer):
-    author = SimpleAuthorSerializer()
+    # author = SimpleAuthorSerializer()
+    author = serializers.PrimaryKeyRelatedField(queryset=Author.objects.all())
     class Meta:
         model = Book
         fields = [
             'id',
             'author',
+            # 'author_id',
             'title',
             'description',
             'genre',
@@ -60,4 +62,10 @@ class BookSerializer(serializers.ModelSerializer):
             'discount',
             'cover'
         ]
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['author'] = SimpleAuthorSerializer(instance.author).data
+        return representation
+        
 

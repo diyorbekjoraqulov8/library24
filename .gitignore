@@ -34,6 +34,7 @@ __pycache__
 
 *.png
 *.jpeg
+*.jpg
 *.img
 
 *.zip

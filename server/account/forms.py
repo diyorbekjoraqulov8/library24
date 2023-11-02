@@ -5,7 +5,7 @@ from .models import User
 class SignupForm(forms.UserCreationForm):
     class Meta:
         model = User
-        fields = ['name', 'email', 'password1', 'password2']
+        fields = ['name', 'email', 'password1']
 
         def clean_username(self):
             return self.cleaned_data['email']

@@ -22,7 +22,7 @@ class Author(models.Model):
         return f"{self.first_name} {self.last_name}"
 
 class Book(models.Model):
-    author = models.ForeignKey(Author, models.DO_NOTHING, related_name="books")
+    author = models.ForeignKey(Author, models.CASCADE, related_name="books")
     title = models.CharField(max_length=255)
     # slug = AutoSlugField(populate_from=['title', 'id'])
     description = models.TextField(max_length=255)
