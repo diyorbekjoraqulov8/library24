@@ -4,13 +4,12 @@ export default {
   theme: {
     container: {
       padding: {
-        DEFAULT: "20px",
-        ss: "10px",
-        sm: "15px",
-        md: "20px",
-        lg: "25px",
-        xl: "30px",
-        "2xl": "60px",
+        DEFAULT: "15px",
+        sm: "10px",
+        md: "15px",
+        lg: "20px",
+        xl: "25px",
+        "2xl": "40px",
       },
     },
     extend: {
