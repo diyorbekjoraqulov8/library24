@@ -16,17 +16,27 @@
               xl:text-lg
               font-semibold
             ">E-mail</label>
-            <InputComp id="email" :required="true" v-model:input="userEmail"
-              :error="error && error.type == 'userEmail' ? error.message : ''" inputType="email" />
+            <InputComp 
+              id="email" 
+              :required="true" 
+              v-model:input="userEmail"
+              :error="error && error.type == 'userEmail' ? error.message : ''" 
+              inputType="email" />
           </div>
 
           <div class="flex flex-col gap-1.5">
-            <label class="
+            <label 
+            class="
               text-sm
               xl:text-lg
               font-semibold
-            ">Password</label>
-            <InputComp id="password" :required="true" v-model:input="userPassword"
+            "
+            >Password</label>
+            <InputComp 
+              id="password" 
+              min="6"
+              :required="true" 
+              v-model:input="userPassword"
               :error="error && error.type == 'userPassword' ? error.message : ''" inputType="password" />
           </div>
 
@@ -60,6 +70,7 @@ import { ref } from "vue";
 import { useRouter } from 'vue-router'
 import InputComp from '@/components/Form/InputComp.vue';
 import ButtonComp from '@/components/Form/ButtonComp.vue';
+import { validateEmail } from '@/directives/auth.js';
 
 let userEmail = ref('')
 let userPassword = ref('')
@@ -74,7 +85,7 @@ const submit = async () => {
   isWorking.value = true
   error.value = null
   
-  if (!userEmail.value) {
+  if (!validateEmail(userEmail.value)) {
     error.value = {
       type: 'userEmail',
       message: 'An user email is required'

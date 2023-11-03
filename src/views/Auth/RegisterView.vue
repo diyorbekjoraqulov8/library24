@@ -7,7 +7,7 @@
           <img class="mx-auto w-20 xl:w-auto" src="/logo.svg" alt="">
         </div>
         <div class="my-5 xl:my-7">
-          <h2 class="text-form-t-color text-2xl font-bold">Login to your account</h2>
+          <h2 class="text-form-t-color text-2xl font-bold">Register new account</h2>
         </div>
         <div class="flex flex-col">
           <div class="flex flex-col gap-1.5 mb-3">
@@ -20,6 +20,7 @@
             >Name</label>
             <InputComp 
             id="name"
+            min='4'
             :required="true"
             v-model:input="userName"
             :error="error && error.type == 'userName' ? error.message : ''"
@@ -52,6 +53,7 @@
             >Password</label>
             <InputComp 
             id="password"
+            min="6"
             :required="true"
             v-model:input="userPassword"
             :error="error && error.type == 'userPassword' ? error.message : ''"
@@ -77,6 +79,7 @@ import { ref } from "vue";
 import { useRouter } from 'vue-router'
 import InputComp from '@/components/Form/InputComp.vue';
 import ButtonComp from '@/components/Form/ButtonComp.vue';
+import { validateEmail } from '@/directives/auth.js';
 
 let userName = ref('')
 let userEmail = ref('')
@@ -91,17 +94,18 @@ const submit = async () => {
     isWorking.value = true
     error.value = null
 
-    if (!userName.value) {
+    console.log();
+    if (!(userName.value?.length >= 4)) {
       error.value = {
         type: 'userName',
-        message: 'A user name is required'
+        message: 'Name minimum charakter 4'
       }
-    } else if (!userEmail.value) {
+    } else if (!validateEmail(userEmail.value)) {
       error.value = {
         type: 'userEmail',
         message: 'An user email is required'
       }
-    } else if (!userPassword.value) {
+    } else if (!(userPassword.value?.length >= 6)) {
       error.value = {
         type: 'userPassword',
         message: 'A user password is required'
