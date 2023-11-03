@@ -1,5 +1,5 @@
 <template>
-  <nav class="container mx-auto flex items-center justify-between bg-slate-300">
+  <nav class="container mx-auto px-9 flex items-center justify-between">
     <div class="w-16">
       <img class="w-full" src="/logo.svg" alt="Logo">
     </div>
@@ -22,6 +22,17 @@
           placeholder="Search">
       </div>
     </form>
+    <div class="flex items-center justify-between bg-slate-400 w-44">
+      <div class="flex items-center justify-center w-12 h-12 cursor-pointer bg-violet-50 rounded">
+        <img class="opacity-70 w-6 h-6" src="/avatar-out.svg" alt="">
+      </div>
+      <div class="flex items-center justify-center w-12 h-12 cursor-pointer bg-violet-50 rounded">
+        <img class="opacity-70 w-6 h-6" src="/heart.png" alt="">
+      </div>
+      <div class="flex items-center justify-center w-12 h-12 cursor-pointer bg-violet-50 rounded">
+        <img class="opacity-70 w-6 h-6" src="/cart.svg" alt="">
+      </div>
+    </div>
   </nav>
 </template>
 
