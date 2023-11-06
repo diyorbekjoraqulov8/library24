@@ -1,6 +1,6 @@
 <template>
   <div>
-    Intro Component
+
   </div>
 </template>
 
