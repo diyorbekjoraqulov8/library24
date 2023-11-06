@@ -1,6 +1,7 @@
 <template>
   <div>
     Index
+    intro
   </div>
 </template>
 

@@ -7,20 +7,23 @@
         <p class="leading-5 text-lg ss:text-xl font-semibold">Back home</p>
       </router-link>
       <div class="mx-auto max-w-xs ss:max-w-[1320px]">
+        <button>Add</button>
         <div class="grid gap-x-[5px] gap-y-10 grid-cols-1 ss:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-y-[12px]">
           <Product :products="mainStore.products"/>
         </div>
+        
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import Product from "./ProductPage.vue";
-import { useCounterStore } from '../../stores/counter.js';
+import Product from "@/components/UI/ProductComp.vue";
+import { useCounterStore } from '@/stores/counter.js';
+import LoaderComp from '@/components/LoaderComp.vue'
 
 const mainStore = useCounterStore()
 
-mainStore.getProducts()
+// mainStore.getProducts()
 
 </script>
