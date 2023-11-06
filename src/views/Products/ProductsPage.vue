@@ -7,21 +7,57 @@
         <p class="leading-5 text-lg ss:text-xl font-semibold">Back home</p>
       </router-link>
       <div class="mx-auto max-w-xs ss:max-w-[1320px]">
-        <button>Add</button>
-        <div class="grid gap-x-[5px] gap-y-10 grid-cols-1 ss:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-y-[12px]">
-          <Product :products="mainStore.products"/>
+        <div 
+        v-if="!mainStore.products?.length"
+        class="grid gap-x-[5px] gap-y-10 grid-cols-1 ss:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-y-[12px]">
+          <div
+          v-for="index in 9" :key="index">
+            <div class="w-full flex flex-col justify-center p-[14px] border ">
+              <div class="w-full h-[180px] mx-auto">
+                <LoaderComp />
+              </div>
+              <div class="w-full flex flex-col gap-[14px] mt-[14px]">
+                <div class="w-5/6 h-[30px]">
+                  <LoaderComp />
+                </div>
+                <div class="w-3/5 h-[24px]">
+                  <LoaderComp />
+                </div>
+                <div class="w-3/4 h-[20px]">
+                  <LoaderComp />
+                </div>
+                <div class="w-full h-[32px] flex gap-[10px]">
+                  <div class="flex-grow h-full">
+                    <LoaderComp class="rounded-md"/>
+                  </div>
+                  <div class="w-1/5 h-full">
+                    <LoaderComp class="rounded-md"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+        <div 
+        v-else
+        class="grid gap-x-[5px] gap-y-10 grid-cols-1 ss:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-y-[12px]">
+          <Product 
+          v-for="product in mainStore.products" :key="product.id"
+          :product="product"/>
+        </div>
+        
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import Product from "./ProductPage.vue";
-import { useCounterStore } from '../../stores/counter.js';
+import Product from "@/components/UI/ProductComp.vue";
+import { useCounterStore } from '@/stores/counter.js';
+import LoaderComp from '@/components/LoaderComp.vue'
 
 const mainStore = useCounterStore()
 
-mainStore.getProducts()
+// mainStore.getProducts()
 
 </script>
