@@ -54,10 +54,8 @@
 <script setup>
 import Product from "@/components/UI/ProductComp.vue";
 import { useCounterStore } from '@/stores/counter.js';
-import LoaderComp from '@/components/LoaderComp.vue'
+import LoaderComp from '@/components/LoaderComp.vue';
 
 const mainStore = useCounterStore()
-
-// mainStore.getProducts()
 
 </script>

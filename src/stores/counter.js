@@ -17,14 +17,16 @@ export const useCounterStore = defineStore('counter', () => {
     // setTimeout(() => {
     //   products.value = res.data
     // }, 5000);
-
-    try {
-      let res = await axios.get(`https://library24.hvsniddin.repl.co/library/books/`)
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
-
+// https://library24.hvsniddin.repl.co/library/books/
+    // try {
+    //   let res = await axios.get(`https://library24.hvsniddin.repl.co/library/books/`,{ 
+    //     headers: {'Access-Control-Allow-Origin': '*'},
+    //   },
+    //   { crossdomain: true })
+    //   console.log(res);
+    // } catch (err) {
+    //   console.log(err);
+    // }
   }
 
   return { count, doubleCount, products, getProducts }
