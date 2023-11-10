@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <nav class="mx-auto max-w-[1350px] px-[15px] pt-4 py-8 flex items-center justify-between">
     <div class="w-16">
       <router-link to="/">
@@ -17,16 +17,16 @@
     </form>
     <div class="flex items-center justify-between w-44">
       <div @click="userToggle = !userToggle" class="relative flex items-center justify-center p-3 cursor-pointer bg-violet-50 active:bg-violet-100 rounded">
-        <img class="opacity-70" src="/avatar-out.svg" alt="">
+        <img class="h-6 w-6 opacity-70" src="/person.svg" alt="">
         <router-link to="/login">
           <span v-if="userToggle" class="w-20 text-sm text-center absolute top-14 right-6 bg-slate-50 hover:bg-slate-100 active:bg-violet-100 py-2 px-5 rounded">Log in</span>
         </router-link>
       </div>
       <div class="flex items-center justify-center p-3 cursor-pointer bg-violet-50 active:bg-violet-100 rounded">
-        <img class="opacity-70" src="/heart.svg" alt="">
+        <img class="h-6 w-6 opacity-70" src="/heart.svg" alt="">
       </div>
       <div class="flex items-center justify-center p-3 cursor-pointer bg-violet-50 active:bg-violet-100 rounded">
-        <img class="opacity-70" src="/cart.svg" alt="">
+        <img class="h-6 w-6 opacity-70" src="/cart.svg" alt="">
       </div>
     </div>
   </nav>
@@ -36,7 +36,9 @@
   import { ref } from "vue";
   let userToggle = ref(false);
   
-</script> -->
+</script>
+
+<!--
 
 <template>
   <Disclosure as="nav" v-slot="{ open }">
@@ -57,7 +59,8 @@
     <div class="mx-auto max-w-[1350px] px-[15px] sm:px-6 lg:px-8">
       <div class="relative flex h-max py-3 seven:py-5 items-center justify-between">
         <div class="inset-y-0 left-0 flex items-center seven:hidden">
-          <!-- Mobile menu button-->
+          Mobile menu button
+          
           <DisclosureButton class="text-black relative inline-flex items-center justify-center rounded-md p-2 hover:bg-[#F4F4FF] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
             <span class="absolute -inset-0.5" />
             <span class="sr-only">Open main menu</span>
@@ -118,12 +121,12 @@
             <img src="/heart.svg" class="w-6 h-6" alt="">
           </button>
 
-          <!-- Profile dropdown -->
+          Profile dropdown
           <Menu as="div" class="relative hidden min-[900px]:block">
             <div>
               <MenuButton class="relative flex rounded-[4px] bg-[#F4F4FF] text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 focus:ring-offset-white p-2.5">
                 <span class="sr-only">Open user menu</span>
-                <!-- <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" /> -->
+                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
 
                 <img src="/person.svg" class="h-6" alt="">
               </MenuButton>
@@ -168,3 +171,6 @@ const navigation = [
   { name: 'Calendar', path: '#', current: false },
 ]
 </script>
+
+
+-->

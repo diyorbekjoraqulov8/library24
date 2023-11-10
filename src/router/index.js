@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
 import MainView from '../views/MainView.vue'
 const LoginView = () => import("../views/Auth/LoginView.vue");
 const RegisterView = () => import("../views/Auth/RegisterView.vue");

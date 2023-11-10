@@ -2,6 +2,7 @@
 import { RouterView } from 'vue-router'
 import Navbar from "@/components/Header/NavbarComp.vue";
 import MobileMenu from "../components/Header/MobileMenu.vue";
+import Slider from '../components/Main/Slider.vue';
 </script>
 
 <template>
@@ -11,6 +12,7 @@ import MobileMenu from "../components/Header/MobileMenu.vue";
     </header>
     <main>
       <RouterView />
+      <Slider />
     </main>
 
     <!-- Mobile menu -->
