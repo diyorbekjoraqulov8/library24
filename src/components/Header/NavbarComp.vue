@@ -16,25 +16,41 @@
       </div>
     </form>
     <div class="flex items-center justify-between w-44">
-      <div @click="userToggle = !userToggle" class="relative flex items-center justify-center p-3 cursor-pointer bg-violet-50 active:bg-violet-100 rounded">
-        <img class="h-6 w-6 opacity-70" src="/person.svg" alt="">
-        <router-link to="/login">
-          <span v-if="userToggle" class="w-20 text-sm text-center absolute top-14 right-6 bg-slate-50 hover:bg-slate-100 active:bg-violet-100 py-2 px-5 rounded">Log in</span>
-        </router-link>
-      </div>
-      <div class="flex items-center justify-center p-3 cursor-pointer bg-violet-50 active:bg-violet-100 rounded">
+      <Menu as="div" class="relative">
+        <MenuButton class="relative flex items-center justify-center p-3 cursor-pointer bg-violet-50 active:bg-violet-100 rounded">
+          <img class="h-6 w-6 opacity-70" src="/person.svg" alt="">
+        </MenuButton>
+        
+        <transition
+          enter-active-class="transition duration-100 ease-out"
+          enter-from-class="transform scale-95 opacity-0"
+          enter-to-class="transform scale-100 opacity-100"
+          leave-active-class="transition duration-75 ease-in"
+          leave-from-class="transform scale-100 opacity-100"
+          leave-to-class="transform scale-95 opacity-0"
+        >
+          <MenuItems class="absolute right-0 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-black/5 focus:outline-none">
+            <MenuItem v-slot="{ active }">
+              <router-link to="/login" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Sign in</router-link>
+            </MenuItem>
+          </MenuItems>
+        </transition>
+      </Menu>
+      
+      <button class="flex items-center justify-center p-3 cursor-pointer bg-violet-50 active:bg-violet-100 rounded">
         <img class="h-6 w-6 opacity-70" src="/heart.svg" alt="">
-      </div>
-      <div class="flex items-center justify-center p-3 cursor-pointer bg-violet-50 active:bg-violet-100 rounded">
+      </button>
+      <button class="flex items-center justify-center p-3 cursor-pointer bg-violet-50 active:bg-violet-100 rounded">
         <img class="h-6 w-6 opacity-70" src="/cart.svg" alt="">
-      </div>
+      </button>
+
+      
     </div>
   </nav>
 </template>
 
 <script setup>
-  import { ref } from "vue";
-  let userToggle = ref(false);
+  import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
   
 </script>
 
