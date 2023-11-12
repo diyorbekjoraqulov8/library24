@@ -77,9 +77,10 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from 'vue-router'
-import InputComp from '@/components/Form/InputComp.vue';
-import ButtonComp from '@/components/Form/ButtonComp.vue';
+import InputComp from '@/components/UI/InputComp.vue';
+import ButtonComp from '@/components/UI/ButtonComp.vue';
 import { validateEmail } from '@/directives/auth.js';
+import { useAuthStore } from "@/stores/auth.js";
 
 let userName = ref('')
 let userEmail = ref('')
@@ -87,6 +88,8 @@ let userPassword = ref('')
 
 let isWorking = ref(false)
 let error = ref(null)
+
+const authStore = useAuthStore()
 
 const router = useRouter()
 
@@ -118,6 +121,15 @@ const submit = async () => {
     }
 
     isWorking.value = false
+
+    let userData = ref({
+      name: userName,
+      email: userEmail,
+      password1: userPassword,
+      password2: userPassword
+    })
+    
+    authStore.signup(userData.value)
 
     return router.push({
       name: 'home',

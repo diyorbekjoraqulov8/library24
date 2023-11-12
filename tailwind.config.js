@@ -1,13 +1,20 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{vue,js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
+    container: {
+      padding: {
+        DEFAULT: "15px",
+        sm: "10px",
+        md: "15px",
+        lg: "20px",
+        xl: "25px",
+        "2xl": "40px",
+      },
+    },
     extend: {
       fontFamily: {
-        "manrope": ["Manrope", "sans-serif"],
+        manrope: ["Manrope", "sans-serif"],
       },
       colors: {
         "input-bg-color": "#F4F4FF",
@@ -24,6 +31,9 @@ export default {
       sm: "640px",
       // => @media (min-width: 640px) { ... }
 
+      seven: "700px",
+      // => @media (min-width: 700px) { ... }
+
       md: "768px",
       // => @media (min-width: 768px) { ... }
 
@@ -38,4 +48,4 @@ export default {
     },
   },
   plugins: [],
-}
+};
