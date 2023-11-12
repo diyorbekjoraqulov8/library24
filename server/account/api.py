@@ -1,6 +1,8 @@
-from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.response import Response
+
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from .forms import SignupForm
 
@@ -22,26 +24,21 @@ def signup(r):
         user = form.save()
          
         # TODO: e-mail verification 
-
     else:
         message = 'error'
-        return JsonResponse({'status': message, 'error': form.errors}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'status': message, 'error': form.errors}, status=status.HTTP_400_BAD_REQUEST)
     
+    refresh = RefreshToken.for_user(user)
 
-    return JsonResponse({
-        'status': message,
-        'user': {
-                'id': user.id,
-                'name': user.name,
-                'email': user.email, 
-                'password_set': user.password is not None
-            }
+    return Response({
+            'refresh': str(refresh),
+            'access': str(refresh.access_token)
         }, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET'])
 def me(r):
-    return JsonResponse({
+    return Response({
         'id': r.user.id,
         'name': r.user.name,
         'email': r.user.email,
