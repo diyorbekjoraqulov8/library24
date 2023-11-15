@@ -81,7 +81,13 @@ import InputComp from '@/components/UI/InputComp.vue';
 import ButtonComp from '@/components/UI/ButtonComp.vue';
 import { validateEmail } from '@/directives/auth.js';
 import { useAuthStore } from "@/stores/auth.js";
+import { localStorageVerify } from "@/directives/verifyToken.js";
 
+/* Common Variables */
+const authStore = useAuthStore()
+const router = useRouter()
+
+/* Simple Variables */
 let userName = ref('')
 let userEmail = ref('')
 let userPassword = ref('')
@@ -89,15 +95,17 @@ let userPassword = ref('')
 let isWorking = ref(false)
 let error = ref(null)
 
-const authStore = useAuthStore()
-
-const router = useRouter()
+/* Verify user exist */
+if (localStorageVerify('userAccessToken')) {
+  router.push({
+    name: 'home',
+  })
+}
 
 const submit = async () => {
-    isWorking.value = true
-    error.value = null
-
-    console.log();
+  isWorking.value = true
+  error.value = null
+  try {
     if (!(userName.value?.length >= 4)) {
       error.value = {
         type: 'userName',
@@ -125,14 +133,16 @@ const submit = async () => {
     let userData = ref({
       name: userName,
       email: userEmail,
-      password1: userPassword,
-      password2: userPassword
+      password: userPassword
     })
     
-    authStore.signup(userData.value)
+    await authStore.signup(userData.value)
 
     return router.push({
       name: 'home',
     })
+  } catch (err) {
+    console.error(err);
+  }
 }
 </script>

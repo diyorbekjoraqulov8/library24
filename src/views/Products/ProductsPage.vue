@@ -11,7 +11,7 @@
         v-if="!mainStore.products?.length"
         class="grid gap-x-[5px] gap-y-10 grid-cols-1 ss:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-y-[12px]">
           <div
-          v-for="index in 9" :key="index">
+          v-for="index in 10" :key="index">
             <div class="w-full flex flex-col justify-center p-[14px] border ">
               <div class="w-full h-[180px] mx-auto">
                 <LoaderComp />
@@ -52,10 +52,15 @@
 </template>
 
 <script setup>
+import { onMounted } from "vue";
 import Product from "@/components/UI/ProductComp.vue";
 import { useCounterStore } from '@/stores/counter.js';
 import LoaderComp from '@/components/LoaderComp.vue';
 
 const mainStore = useCounterStore()
+
+onMounted(() => {
+  mainStore.getProducts()
+})
 
 </script>

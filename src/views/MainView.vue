@@ -1,7 +1,16 @@
 <script setup>
+import { onMounted } from 'vue'
 import { RouterView } from 'vue-router'
 import Navbar from "@/components/Header/NavbarComp.vue";
-import MobileMenu from "../components/Header/MobileMenu.vue";
+import MobileMenu from "@/components/Header/MobileMenu.vue";
+import { useAuthStore } from "@/stores/auth.js";
+
+const authStore = useAuthStore()
+
+onMounted(() => {
+  authStore.init()
+})
+
 </script>
 
 <template>

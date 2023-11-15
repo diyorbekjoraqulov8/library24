@@ -68,9 +68,17 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from 'vue-router'
+import { useAuthStore } from "@/stores/auth.js";
 import InputComp from '@/components/UI/InputComp.vue';
 import ButtonComp from '@/components/UI/ButtonComp.vue';
 import { validateEmail } from '@/directives/auth.js';
+import { localStorageVerify } from "@/directives/verifyToken.js";
+
+/* Common Variables */
+const authStore = useAuthStore()
+const router = useRouter()
+
+/* Simple Variables */
 
 let userEmail = ref('')
 let userPassword = ref('')
@@ -79,33 +87,49 @@ let rememberMe = ref(false)
 let isWorking = ref(false)
 let error = ref(null)
 
-const router = useRouter()
+/* Verify user exist */
+if (localStorageVerify('userAccessToken')) {
+  router.push({
+    name: 'home',
+  })
+}
 
 const submit = async () => {
   isWorking.value = true
   error.value = null
   
-  if (!validateEmail(userEmail.value)) {
-    error.value = {
-      type: 'userEmail',
-      message: 'An user email is required'
+  try {
+    if (!validateEmail(userEmail.value)) {
+      error.value = {
+        type: 'userEmail',
+        message: 'An user email is required'
+      }
+    } else if (!userPassword.value) {
+      error.value = {
+        type: 'userPassword',
+        message: 'A user password is required'
+      }
     }
-  } else if (!userPassword.value) {
-    error.value = {
-      type: 'userPassword',
-      message: 'A user password is required'
-    }
-  }
 
-  if (error.value) {
+    if (error.value) {
+      isWorking.value = false
+      return
+    }
+
     isWorking.value = false
-    return
+
+    let userData = ref({
+      email: userEmail,
+      password: userPassword
+    })
+    
+    await authStore.login(userData.value)
+    
+    return router.push({
+      name: 'home',
+    })
+  } catch (err) {
+    console.error(err)
   }
-
-  isWorking.value = false
-
-  return router.push({
-    name: 'home',
-  })
 }
 </script>
