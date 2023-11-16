@@ -1,7 +1,7 @@
 <template>
   <div
   class="aspect-h-1 aspect-w-1 w-full h-auto overflow-hidden rounded-lg bg-white xl:aspect-h-8 xl:aspect-w-7 p-[14px] relative">
-    <img src="/heart.svg" alt="" class="absolute top-[14px] right-[14px] cursor-pointer">
+    <img src="/heart.svg" alt="" class="absolute top-[14px] right-[14px] cursor-pointer h-[23px]">
     <img :src="product?.url" alt="" class="object-contain h-[180px] w-full object-center mb-[14px]" />
     <div class="flex flex-col gap-[14px]">
       <h3 class="text-[16px] text-black font-manrope font-bold min-h-[48px] leading-5">{{ product?.title }}</h3>

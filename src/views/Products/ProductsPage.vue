@@ -12,7 +12,7 @@
         class="grid gap-x-[5px] gap-y-10 grid-cols-1 ss:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-y-[12px]">
           <div
           v-for="index in 10" :key="index">
-            <div class="w-full flex flex-col justify-center p-[14px] border ">
+            <div class="w-full flex flex-col justify-center p-[14px] border">
               <div class="w-full h-[180px] mx-auto">
                 <LoaderComp />
               </div>

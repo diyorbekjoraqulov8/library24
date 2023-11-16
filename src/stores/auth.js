@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios';
-import { localStorageVerify } from "@/directives/verifyToken.js";
+import { localStorageVerify, localStorageRemove } from "@/directives/verifyToken.js";
 // const worker = new Worker(new URL('@/workers/worker.js', import.meta.url));
 
 export const useAuthStore = defineStore('auth', () => {
@@ -16,9 +16,9 @@ export const useAuthStore = defineStore('auth', () => {
     let token = await localStorageVerify('userAccessToken')
     if (token) {
       // get request user/me api
+      showMe(token)
     } else {
       // user not excist
-      console.log(user.value);
     }
   }
 
@@ -46,23 +46,39 @@ export const useAuthStore = defineStore('auth', () => {
         url: `https://library24.hvsniddin.repl.co/user/signup/`,
         data: userData
       });
-      console.log(res);
+      
+      localStorage.setItem('userAccessToken', res?.data?.access)
+      localStorage.setItem('userRefreshToken', res?.data?.refresh)
     } catch (error) {
       throw new Error(error)
     }
   }
 
-  async function showMe() {
+  async function showMe(token) {
+    const headers = {
+      Authorization: `Bearer ${token}`
+    }
     try {
       let res = await axios({
         method: 'get',
-        url: `https://library24.hvsniddin.repl.co/user/me/`
+        url: `https://library24.hvsniddin.repl.co/user/me/`,
+        headers
       });
-      console.log(res);
+
+      user.value = res.data
+
+      console.log('user find');
     } catch (error) {
       console.log(error);
     }
   }
 
-  return { signup, showMe, login, init }
+  async function logout() {
+    localStorageRemove('userAccessToken')
+    localStorageRemove('userRefreshToken')
+
+    user.value = null
+  }
+
+  return { signup, showMe, login, init, logout, user }
 })

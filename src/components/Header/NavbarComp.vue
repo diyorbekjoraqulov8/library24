@@ -1,46 +1,6 @@
-<!-- <template>
-  <nav class="mx-auto max-w-[1350px] px-[15px] pt-4 py-8 flex items-center justify-between">
-    <div class="w-16">
-      <router-link to="/">
-        <img class="w-full" src="/logo.svg" alt="Logo">
-      </router-link>
-    </div>
-    <form @submit.prevent class="w-3/5">
-      <div class="relative bg-violet-50 rounded">
-        <div class="absolute inset-y-0 left-0 flex items-center pl-5 pointer-events-none">
-          <img src="/search.svg">
-        </div>
-        <input type="search"
-          class="block w-full pl-14 pr-6 py-2.5 outline-none text-lg text-gray-900 rounded bg-transparent border border-transparent focus:border-blue-200"
-          placeholder="Search">
-      </div>
-    </form>
-    <div class="flex items-center justify-between w-44">
-      <div @click="userToggle = !userToggle" class="relative flex items-center justify-center p-3 cursor-pointer bg-violet-50 active:bg-violet-100 rounded">
-        <img class="opacity-70" src="/avatar-out.svg" alt="">
-        <router-link to="/login">
-          <span v-if="userToggle" class="w-20 text-sm text-center absolute top-14 right-6 bg-slate-50 hover:bg-slate-100 active:bg-violet-100 py-2 px-5 rounded">Log in</span>
-        </router-link>
-      </div>
-      <div class="flex items-center justify-center p-3 cursor-pointer bg-violet-50 active:bg-violet-100 rounded">
-        <img class="opacity-70" src="/heart.svg" alt="">
-      </div>
-      <div class="flex items-center justify-center p-3 cursor-pointer bg-violet-50 active:bg-violet-100 rounded">
-        <img class="opacity-70" src="/cart.svg" alt="">
-      </div>
-    </div>
-  </nav>
-</template>
-
-<script setup>
-  import { ref } from "vue";
-  let userToggle = ref(false);
-  
-</script> -->
-
 <template>
   <Disclosure as="nav" v-slot="{ open }">
-    <div class="flex items-center justify-between
+    <div class="flex items-center justify-between 
     seven:hidden px-4 py-3 ss:py-5 ss:px-6 border-b border-b-gray-300">
       <a href="">
         <img src="/phone.svg" class="h-6" alt="">
@@ -108,36 +68,58 @@
             </div>
           </div>
 
-          <button type="button" class="hidden min-[900px]:block relative rounded-[4px] bg-[#F4F4FF] p-2.5 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:ring-offset-white">
+          <router-link
+          to="/cart"
+          class="hidden min-[900px]:block relative rounded-[4px] bg-[#F4F4FF] p-2.5 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:ring-offset-white">
             <span class="sr-only">View notifications</span>
-            <img src="/cart.svg" class="w-6 h-6" alt="">
-          </button>
+            <img src="/cart.svg" class="w-6 h-6" alt="cart">
+          </router-link>
 
-          <button type="button" class="hidden min-[900px]:block relative rounded-[4px] bg-[#F4F4FF] p-2.5 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:ring-offset-white">
-            <span class="sr-only">View notifications</span>
-            <img src="/heart.svg" class="w-6 h-6" alt="">
-          </button>
+          <router-link
+          to="/like"
+          class="hidden min-[900px]:block relative rounded-[4px] bg-[#F4F4FF] p-2.5 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:ring-offset-white">
+            <div>
+              <span class="sr-only">View notifications</span>
+              <img src="/heart.svg" class="h-6 w-6" alt="heart">
+            </div>
+          </router-link>
 
           <!-- Profile dropdown -->
           <Menu as="div" class="relative hidden min-[900px]:block">
             <div>
-              <MenuButton class="relative flex rounded-[4px] bg-[#F4F4FF] text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 focus:ring-offset-white p-2.5">
+              <MenuButton 
+              v-if="store?.user?.id"
+              class="relative flex rounded-[4px] bg-[#F4F4FF] text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 focus:ring-offset-white p-2.5">
                 <span class="sr-only">Open user menu</span>
                 <!-- <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" /> -->
 
-                <img src="/person.svg" class="h-6" alt="">
+                <img src="/person.svg" class="h-6 w-6" alt="person">
               </MenuButton>
+
+              <router-link 
+              v-else
+              to="/login"
+              class="relative flex rounded-[4px] bg-[#F4F4FF] text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 focus:ring-offset-white p-2.5">
+                <img src="/signin.svg" class="h-6 w-6" alt="person">
+              </router-link>
             </div>
             <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
               <MenuItems class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <MenuItem v-slot="{ active }">
-                  <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Your Profile</a>
+                  <router-link to="/profil" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
+                    Your Profile
+                  </router-link>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
                   <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Settings</a>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                  <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Sign out</a>
+                  <button 
+                  @click="logout()"
+                  class="block w-full text-left"
+                  :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
+                    Sign out
+                  </button>
                 </MenuItem>
               </MenuItems>
             </transition>
@@ -160,6 +142,17 @@
 <script setup>
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline';
+import { useAuthStore } from "@/stores/auth.js";
+import { useRouter } from 'vue-router';
+
+const store = useAuthStore()
+const router = useRouter()
+
+async function logout() {
+  await store.logout()
+
+  router.push('/')
+}
 
 const navigation = [
   { name: 'Products', path: '/products', current: true },

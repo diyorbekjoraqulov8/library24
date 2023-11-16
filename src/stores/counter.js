@@ -5,7 +5,42 @@ import axios from 'axios';
 export const useCounterStore = defineStore('counter', () => {
   // Variables
   let count = ref(0);
+  let navbar = ref({
+    height: 0
+  })
   let products = ref(null);
+  let newProducts = ref([
+    {
+      id: 1,
+      title: "peter parker",
+      price: "21.20"
+    },
+    {
+      id: 1,
+      title: "peter parker",
+      price: "21.20"
+    },
+    {
+      id: 1,
+      title: "peter parker",
+      price: "21.20"
+    },
+    {
+      id: 1,
+      title: "peter parker",
+      price: "21.20"
+    },
+    {
+      id: 1,
+      title: "peter parker",
+      price: "21.20"
+    },
+    {
+      id: 1,
+      title: "peter parker",
+      price: "21.20"
+    },
+  ])
 
   // Api Requests
   async function getProducts() {
@@ -17,5 +52,5 @@ export const useCounterStore = defineStore('counter', () => {
     }
   }
 
-  return { count, products, getProducts }
+  return { count, products, getProducts, newProducts, navbar }
 })
