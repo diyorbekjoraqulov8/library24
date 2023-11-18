@@ -1,8 +1,8 @@
 <template>
   <div class="mx-auto max-w-[1350px] px-[15px] py-4">
     <h2 
-      class="mb-4 font-manrope leading-6 text-xl font-bold w-max bg-white p-2 pr-4 cursor-pointer"
-      :class="`sticky top-[${mainStore.navbar?.height}px] left-0 z-10`"
+      id="newProductsTitle"
+      class="mb-4 font-manrope leading-6 text-xl font-bold w-max bg-white p-2 pr-4 cursor-pointer sticky left-0 z-10"
     ># Yangi kelganlar ></h2>
     <div
     v-if="!mainStore.nerProducts?.length"

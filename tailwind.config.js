@@ -1,6 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
+  content: [
+    "./node_modules/flowbite/**/*.js",
+    "./index.html",
+    "./src/**/*.{vue,js,ts,jsx,tsx}",
+  ],
   theme: {
     container: {
       padding: {
@@ -47,5 +51,7 @@ export default {
       // => @media (min-width: 1536px) { ... }
     },
   },
-  plugins: [],
-};
+  plugins: [
+    require('flowbite/plugin')
+  ],
+}

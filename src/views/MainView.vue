@@ -4,26 +4,22 @@ import { RouterView } from 'vue-router'
 import Navbar from "@/components/Header/NavbarComp.vue";
 import MobileMenu from "@/components/Header/MobileMenu.vue";
 import { useAuthStore } from "@/stores/auth.js";
-import { useCounterStore } from "@/stores/counter.js";
 
 const authStore = useAuthStore()
-const store = useCounterStore()
 let navbarSticky = ref(false)
 
 onMounted(() => {
   authStore.init()
 
-  // Navbar scrol
+  // Navbar scroll
   let navbar = document.getElementById("navbar")
-  store.navbar.height = navbar.clientHeight
+  let newProductsTitle = document.getElementById("newProductsTitle")
   
   window.onscroll = () => {
-    console.log(store.navbar.height);
-    navbarSticky.value = window.scrollY > store.navbar.height
-  }
+    navbarSticky.value = window.scrollY > navbar.clientHeight
 
-  window.onresize = () => {
-    store.navbar.height = navbar.clientHeight
+    // New Products page title style
+    newProductsTitle.style.top = `${navbar.clientHeight}px`
   }
 })
 

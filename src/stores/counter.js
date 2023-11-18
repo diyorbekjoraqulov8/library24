@@ -5,9 +5,6 @@ import axios from 'axios';
 export const useCounterStore = defineStore('counter', () => {
   // Variables
   let count = ref(0);
-  let navbar = ref({
-    height: 0
-  })
   let products = ref(null);
   let newProducts = ref([
     {
@@ -52,5 +49,5 @@ export const useCounterStore = defineStore('counter', () => {
     }
   }
 
-  return { count, products, getProducts, newProducts, navbar }
+  return { count, products, getProducts, newProducts }
 })
