@@ -3,6 +3,8 @@
     <TableComp 
       :headerList="headerList"
       :bodyList="bodyList"
+      :sorted="sorted"
+      @sortTable="sortTable($event)"
     />
   </div>
 </template>
@@ -10,19 +12,32 @@
 <script setup>
 import { ref } from "vue";
 import TableComp from "@/components/TableComp.vue";
+import { useAdminStore } from "@/stores/admin.js";
+
+const store = useAdminStore()
 
 const headerList = ref([
   {
     id: 1,
-    text: "Product name"
+    text: "Product name",
+    sort: {
+      category: 'name',
+    }
   },
   {
     id: 2,
-    text: "Color"
+    text: "Color",
+    sort: {
+      category: 'color',
+    }
   },
   {
     id: 3,
-    text: "Category"
+    text: "Category",
+    category: 'category',
+    sort: {
+      category: 'category',
+    }
   },
   {
     id: 4,
@@ -42,438 +57,32 @@ const headerList = ref([
   }
 ])
 
-const bodyList = ref([
-  {
-    id: 1,
-    data: [
-      {
-        text: "Apple MacBook Pro 17",
-        main: true
-      },
-      {
-        text: "Silver"
-      },
-      {
-        text: "Laptop"
-      },
-      {
-        text: "Yes"
-      },
-      {
-        text: "Yes"
-      },
-      {
-        text: "$2999"
-      },
-      {
-        text: "3.0 lb."
-      }
-    ]
-  },
-  {
-    id: 2,
-    data: [
-      {
-        text: "Microsoft Surface Pro",
-        main: true
-      },
-      {
-        text: "White"
-      },
-      {
-        text: "Laptop PC"
-      },
-      {
-        text: "No"
-      },
-      {
-        text: "Yes"
-      },
-      {
-        text: "$1999"
-      },
-      {
-        text: "1.0 lb."
-      }
-    ]
-  },
-  {
-    id: 3,
-    data: [
-      {
-        text: "Magic Mouse 2",
-        main: true
-      },
-      {
-        text: "Black"
-      },
-      {
-        text: "Accessories"
-      },
-      {
-        text: "Yes"
-      },
-      {
-        text: "No"
-      },
-      {
-        text: "$99"
-      },
-      {
-        text: "0.2 lb."
-      }
-    ]
-  },
-  {
-    id: 4,
-    data: [
-      {
-        text: "Apple Watch",
-        main: true
-      },
-      {
-        text: "Black"
-      },
-      {
-        text: "Watches"
-      },
-      {
-        text: "Yes"
-      },
-      {
-        text: "No"
-      },
-      {
-        text: "$199"
-      },
-      {
-        text: "7.0 lb."
-      }
-    ]
-  },
-  {
-    id: 1,
-    data: [
-      {
-        text: "Apple MacBook Pro 17",
-        main: true
-      },
-      {
-        text: "Silver"
-      },
-      {
-        text: "Laptop"
-      },
-      {
-        text: "Yes"
-      },
-      {
-        text: "Yes"
-      },
-      {
-        text: "$2999"
-      },
-      {
-        text: "3.0 lb."
-      }
-    ]
-  },
-  {
-    id: 2,
-    data: [
-      {
-        text: "Microsoft Surface Pro",
-        main: true
-      },
-      {
-        text: "White"
-      },
-      {
-        text: "Laptop PC"
-      },
-      {
-        text: "No"
-      },
-      {
-        text: "Yes"
-      },
-      {
-        text: "$1999"
-      },
-      {
-        text: "1.0 lb."
-      }
-    ]
-  },
-  {
-    id: 3,
-    data: [
-      {
-        text: "Magic Mouse 2",
-        main: true
-      },
-      {
-        text: "Black"
-      },
-      {
-        text: "Accessories"
-      },
-      {
-        text: "Yes"
-      },
-      {
-        text: "No"
-      },
-      {
-        text: "$99"
-      },
-      {
-        text: "0.2 lb."
-      }
-    ]
-  },
-  {
-    id: 4,
-    data: [
-      {
-        text: "Apple Watch",
-        main: true
-      },
-      {
-        text: "Black"
-      },
-      {
-        text: "Watches"
-      },
-      {
-        text: "Yes"
-      },
-      {
-        text: "No"
-      },
-      {
-        text: "$199"
-      },
-      {
-        text: "7.0 lb."
-      }
-    ]
-  },
-  {
-    id: 1,
-    data: [
-      {
-        text: "Apple MacBook Pro 17",
-        main: true
-      },
-      {
-        text: "Silver"
-      },
-      {
-        text: "Laptop"
-      },
-      {
-        text: "Yes"
-      },
-      {
-        text: "Yes"
-      },
-      {
-        text: "$2999"
-      },
-      {
-        text: "3.0 lb."
-      }
-    ]
-  },
-  {
-    id: 2,
-    data: [
-      {
-        text: "Microsoft Surface Pro",
-        main: true
-      },
-      {
-        text: "White"
-      },
-      {
-        text: "Laptop PC"
-      },
-      {
-        text: "No"
-      },
-      {
-        text: "Yes"
-      },
-      {
-        text: "$1999"
-      },
-      {
-        text: "1.0 lb."
-      }
-    ]
-  },
-  {
-    id: 3,
-    data: [
-      {
-        text: "Magic Mouse 2",
-        main: true
-      },
-      {
-        text: "Black"
-      },
-      {
-        text: "Accessories"
-      },
-      {
-        text: "Yes"
-      },
-      {
-        text: "No"
-      },
-      {
-        text: "$99"
-      },
-      {
-        text: "0.2 lb."
-      }
-    ]
-  },
-  {
-    id: 4,
-    data: [
-      {
-        text: "Apple Watch",
-        main: true
-      },
-      {
-        text: "Black"
-      },
-      {
-        text: "Watches"
-      },
-      {
-        text: "Yes"
-      },
-      {
-        text: "No"
-      },
-      {
-        text: "$199"
-      },
-      {
-        text: "7.0 lb."
-      }
-    ]
-  },
-  {
-    id: 1,
-    data: [
-      {
-        text: "Apple MacBook Pro 17",
-        main: true
-      },
-      {
-        text: "Silver"
-      },
-      {
-        text: "Laptop"
-      },
-      {
-        text: "Yes"
-      },
-      {
-        text: "Yes"
-      },
-      {
-        text: "$2999"
-      },
-      {
-        text: "3.0 lb."
-      }
-    ]
-  },
-  {
-    id: 2,
-    data: [
-      {
-        text: "Microsoft Surface Pro",
-        main: true
-      },
-      {
-        text: "White"
-      },
-      {
-        text: "Laptop PC"
-      },
-      {
-        text: "No"
-      },
-      {
-        text: "Yes"
-      },
-      {
-        text: "$1999"
-      },
-      {
-        text: "1.0 lb."
-      }
-    ]
-  },
-  {
-    id: 3,
-    data: [
-      {
-        text: "Magic Mouse 2",
-        main: true
-      },
-      {
-        text: "Black"
-      },
-      {
-        text: "Accessories"
-      },
-      {
-        text: "Yes"
-      },
-      {
-        text: "No"
-      },
-      {
-        text: "$99"
-      },
-      {
-        text: "0.2 lb."
-      }
-    ]
-  },
-  {
-    id: 4,
-    data: [
-      {
-        text: "Apple Watch",
-        main: true
-      },
-      {
-        text: "Black"
-      },
-      {
-        text: "Watches"
-      },
-      {
-        text: "Yes"
-      },
-      {
-        text: "No"
-      },
-      {
-        text: "$199"
-      },
-      {
-        text: "7.0 lb."
-      }
-    ]
-  },
-])
+let bodyList = ref(store.productList)
+let sorted = ref({
+  condition: false,
+  category: undefined,
+  default: false
+})
+
+function sortTable(ct) {
+  const list = [...store.productList];
+  const isSameCategory = sorted.value.category === ct;
+  const isDefault = sorted.value.default;
+
+  bodyList.value = list.sort((a, b) => {
+    if (isSameCategory && isDefault) {
+      return a.id - b.id
+    } else if (isSameCategory) {
+      return b[ct].localeCompare(a[ct])
+    } else {
+      return a[ct].localeCompare(b[ct])
+    }
+  });
+
+  sorted.value.category = isDefault ? undefined : ct;
+  sorted.value.default = isSameCategory && !isDefault ? true : false;
+
+  // console.log(isSameCategory && isDefault ? 'three' : isSameCategory ? 'two' : 'one');
+}
+
 </script>

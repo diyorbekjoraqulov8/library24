@@ -1,5 +1,5 @@
 <template>
-  <div id="tableParent" class=" relative overflow-x-auto shadow-md sm:rounded-lg h-max">
+  <div id="tableParent" class="relative overflow-x-auto shadow-md sm:rounded-lg h-full">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
       <thead v-if="headerList?.length" class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0 z-10">
         <tr>
@@ -9,9 +9,9 @@
               <label for="checkbox-all-search" class="sr-only">checkbox</label>
             </div>
           </th>
-          <th v-for="list in headerList" :key="list?.id" scope="col" class="pr-6 pl-2 py-3">
+          <th v-for="list in headerList" :key="list?.id" scope="col" class="w-max px-2 py-3">
             <div 
-              @click="list?.sort?.category ? $emit('sortTable',list?.sort?.category) : ''"
+              @click="$emit('sortTable',list?.sort?.category)"
               class="flex gap-1 cursor-pointer"
             >
               <svg 
@@ -40,7 +40,6 @@
                 <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer">
                 <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
               </div>
-              {{ list?.id }}
             </td>
             <td 
               v-for="item in list" :key="item"
@@ -57,6 +56,8 @@
               </button>
 
               <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-xs px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete</button>
+              <!-- <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+              <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Remove</a> -->
             </td>
         </tr>
       </tbody>
@@ -79,9 +80,9 @@ onMounted(() => {
   const routerParent = document.getElementById('routerParent')?.style?.paddingTop
   const paddingTop = [...routerParent].filter(item => +item.trim()).join('')
 
-  tableParent.style.maxHeight = `${window.innerHeight - paddingTop}px`
+  tableParent.style.height = `${window.innerHeight - paddingTop}px`
   window.onresize = () => {
-    tableParent.style.maxHeight = `${window.innerHeight - paddingTop}px`
+    tableParent.style.height = `${window.innerHeight - paddingTop}px`
   }
 })
 
