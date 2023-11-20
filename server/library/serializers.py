@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
-from .models import Author, Book
+from account.models import User
+
+from .models import Author, Book, Rating
 
 class SimpleAuthorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -50,7 +52,6 @@ class BookSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'author',
-            # 'author_id',
             'title',
             'description',
             'genre',
@@ -69,3 +70,15 @@ class BookSerializer(serializers.ModelSerializer):
         return representation
         
 
+class RatingSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    book = serializers.PrimaryKeyRelatedField(queryset=Book.objects.all())
+    class Meta:
+        model = Rating
+        fields = ['user','book','rating']
+
+    def validate_rating(self, value):
+        if value < 0.5 or value > 5.0:
+            raise serializers.ValidationError("Rating must be between 0.5 and 5.0")
+        return value
+    

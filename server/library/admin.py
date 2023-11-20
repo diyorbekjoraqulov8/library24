@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Author, Book, Review
+from .models import Author, Book, Rating
 
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
@@ -14,4 +14,4 @@ class BookAdmin(admin.ModelAdmin):
     search_fields = ('title',)
     autocomplete_fields = ('author',)
 
-admin.site.register(Review)
+admin.site.register(Rating)

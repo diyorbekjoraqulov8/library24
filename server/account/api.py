@@ -1,8 +1,12 @@
 from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .forms import SignupForm
 
@@ -43,3 +47,23 @@ def me(r):
         'name': r.user.name,
         'email': r.user.email,
     })
+
+class BlacklistTokenUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        # try:
+            # Extract the token from the Authorization header
+            auth_header = request.META.get('HTTP_AUTHORIZATION')
+            if auth_header is not None:
+                token = auth_header.split(' ')[1]
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+
+            # Blacklist the token
+            token = RefreshToken(token)
+            token.blacklist()
+
+            return Response(status=status.HTTP_205_RESET_CONTENT)
+        # except Exception as e:
+        #     return Response(status=status.HTTP_400_BAD_REQUEST)

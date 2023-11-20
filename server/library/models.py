@@ -37,10 +37,25 @@ class Book(models.Model):
 
     cover = models.ImageField(upload_to='media/books/covers')
 
+    def get_rating(self):
+        ratings = self.rating_set.all()
+        avg = 0
+
+        for i in ratings:
+            avg += i.rating
+        else: avg /= len(ratings)
+
+        data = {
+            'number': len(ratings),
+            'average': avg
+        }
 
 
-class Review(models.Model):
+        return data
+
+
+
+class Rating(models.Model):
     user = models.ForeignKey(User, models.CASCADE)
     book = models.ForeignKey(Book, models.CASCADE)
-    datetime = models.DateTimeField(default=datetime.now())
-    rating = models.IntegerField()
+    rating = models.DecimalField(max_digits=2, decimal_places=1)
