@@ -1,8 +1,14 @@
+import os
+from django.conf import settings
+
 from rest_framework import serializers
 
 from account.models import User
 
 from .models import Author, Book, Rating
+
+from django.core.files.base import ContentFile
+from django.utils.text import slugify
 
 class SimpleAuthorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,8 +17,6 @@ class SimpleAuthorSerializer(serializers.ModelSerializer):
             'id',
             'first_name',
             'last_name',
-            'birth_date',
-            'death_date',
         ]
 class SimpleBookSerializer(serializers.ModelSerializer):
     class Meta:
@@ -39,14 +43,13 @@ class AuthorSerializer(serializers.ModelSerializer):
             'id',
             'first_name',
             'last_name',
-            'birth_date',
-            'death_date',
             'books'
         ]
 
 class BookSerializer(serializers.ModelSerializer):
-    # author = SimpleAuthorSerializer()
     author = serializers.PrimaryKeyRelatedField(queryset=Author.objects.all())
+    cover_url = serializers.SerializerMethodField()
+    cover = serializers.ImageField(max_length=None, write_only=True)
     class Meta:
         model = Book
         fields = [
@@ -61,8 +64,22 @@ class BookSerializer(serializers.ModelSerializer):
             'copies_sold',
             'price',
             'discount',
-            'cover'
+            'cover',
+            'cover_url'
         ]
+
+    def create(self, validated_data):
+        cover = validated_data.pop('cover')
+        book = Book.objects.create(**validated_data)
+        extension = os.path.splitext(cover.name)[1]  # Extract extension from original file name
+        new_filename = '{}-{}{}'.format(book.id, slugify(book.title), extension)
+        book.cover.save(new_filename, ContentFile(cover.read()))
+        return book
+
+    def get_cover_url(self, obj):
+        if obj.cover:
+            return 'http://{}{}'.format(settings.HOST_NAME, obj.cover.url)
+        return None
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)

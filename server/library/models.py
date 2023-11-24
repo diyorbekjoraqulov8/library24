@@ -1,3 +1,5 @@
+from collections.abc import Iterable
+import os
 from django.db import models
 from django.core.validators import MaxValueValidator
 from django.utils.text import slugify
@@ -15,11 +17,10 @@ from account.models import User
 class Author(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    birth_date = models.DateField()
-    death_date = models.DateField(blank=True, null=True)
 
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}"
+
 
 class Book(models.Model):
     author = models.ForeignKey(Author, models.CASCADE, related_name="books")
@@ -35,7 +36,7 @@ class Book(models.Model):
     discount = models.IntegerField(default=0, validators=[MaxValueValidator(100)])
     
 
-    cover = models.ImageField(upload_to='media/books/covers')
+    cover = models.ImageField(upload_to='books/covers')
 
     def get_rating(self):
         ratings = self.rating_set.all()
@@ -49,8 +50,6 @@ class Book(models.Model):
             'number': len(ratings),
             'average': avg
         }
-
-
         return data
 
 

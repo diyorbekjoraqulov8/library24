@@ -65,18 +65,6 @@ class AuthorRetrieveUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
             self.permission_classes = [permissions.IsAdminUser, ]
             self.authentication_classes = [JWTAuthentication]
         return super(AuthorRetrieveUpdateDeleteAPIView, self).get_permissions()
-    
-# @api_view(['POST'])
-# @permission_classes([])
-# def rate_book(r, id):
-#     book = Book.objects.get(id=id)
-#     user = r.user
-#     rate = r.POST.get('rate')
-
-#     rating = Rating.objects.create(user=user, book=book, rating=rate)
-
-
-#     return Response(book.get_rating(), status=status.HTTP_200_OK)
 
 class RatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all()

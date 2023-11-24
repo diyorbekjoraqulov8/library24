@@ -4,7 +4,7 @@ from .models import Author, Book, Rating
 
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'birth_date', 'death_date',)
+    list_display = ('first_name', 'last_name',)
     search_fields = ('first_name', 'last_name',)
 
 @admin.register(Book)
