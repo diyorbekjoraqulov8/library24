@@ -43,7 +43,7 @@ class AuthorListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = SimpleAuthorSerializer
     lookup_field = 'id'
     filter_backends = [SearchFilter]
-    search_fields = ['first_name', 'last_name']
+    search_fields = ['full_name']
 
     def get_permissions(self):
         if self.request.method == 'GET':

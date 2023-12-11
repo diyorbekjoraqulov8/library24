@@ -15,8 +15,7 @@ class SimpleAuthorSerializer(serializers.ModelSerializer):
         model = Author
         fields = [
             'id',
-            'first_name',
-            'last_name',
+            'full_name'
         ]
 class SimpleBookSerializer(serializers.ModelSerializer):
     class Meta:
@@ -41,8 +40,7 @@ class AuthorSerializer(serializers.ModelSerializer):
         model = Author
         fields = [
             'id',
-            'first_name',
-            'last_name',
+            'full_name'
             'books'
         ]
 
