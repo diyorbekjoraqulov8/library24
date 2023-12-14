@@ -10,7 +10,7 @@ from django.utils.text import slugify
 #   2. Change lookup_field in APIViews
 #   3. Change URLs
 
-from datetime import datetime
+from datetime import datetime, date
 
 from account.models import User
 
@@ -29,7 +29,7 @@ class Book(models.Model):
     genre = models.CharField(max_length=50)
     length = models.IntegerField()
     published_date = models.IntegerField()
-    created_date = models.DateField(default=datetime.now().today, blank=True)
+    created_date = models.DateField(default=date.today, blank=True)
     copies_sold = models.IntegerField(default=0, blank=True)
     price = models.IntegerField()
     discount = models.IntegerField(default=0, validators=[MaxValueValidator(100)], blank=True)

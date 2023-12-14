@@ -4,11 +4,20 @@ from rest_framework import status, generics, permissions, viewsets
 from rest_framework.filters import SearchFilter
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
 
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
+from django_filters.rest_framework import DjangoFilterBackend
+
 from .serializers import RatingSerializer, SimpleAuthorSerializer, AuthorSerializer, BookSerializer
 from .models import Book, Author, Rating
+
+class BookPagination(PageNumberPagination):
+    page_size = 7
+    page_query_param = 'page'
+    page_size_query_param = 'page_size'
+
 
 class BookRetrieveUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Book.objects.all().order_by('id')  
@@ -27,8 +36,13 @@ class BookListCreateAPIView(generics.ListCreateAPIView):
     queryset = Book.objects.all().order_by('id')
     serializer_class = BookSerializer
     lookup_field = 'id'
-    filter_backends = [SearchFilter]
+    
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ['id', 'title', 'price', 'discount', 'genre']
+    
     search_fields = ['title']
+
+    pagination_class = BookPagination
 
     def get_permissions(self):
         if self.request.method == 'GET':
@@ -42,8 +56,12 @@ class AuthorListCreateAPIView(generics.ListCreateAPIView):
     queryset = Author.objects.all().order_by('id')  
     serializer_class = SimpleAuthorSerializer
     lookup_field = 'id'
-    filter_backends = [SearchFilter]
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ['id', 'full_name']
     search_fields = ['full_name']
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 10
+    pagination_class.page_query_param = 'page_size'
 
     def get_permissions(self):
         if self.request.method == 'GET':

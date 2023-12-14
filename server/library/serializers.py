@@ -78,11 +78,6 @@ class BookSerializer(serializers.ModelSerializer):
         if obj.cover:
             return 'http://{}{}'.format(settings.HOST_NAME, obj.cover.url)
         return None
-
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation['author'] = SimpleAuthorSerializer(instance.author).data
-        return representation
         
 
 class RatingSerializer(serializers.ModelSerializer):
