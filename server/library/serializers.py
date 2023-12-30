@@ -5,10 +5,15 @@ from rest_framework import serializers
 
 from account.models import User
 
-from .models import Author, Book, Rating
+from .models import Author, Book, Genre, Rating
 
 from django.core.files.base import ContentFile
 from django.utils.text import slugify
+
+class GenreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = ['id', 'name']
 
 class SimpleAuthorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -46,6 +51,7 @@ class AuthorSerializer(serializers.ModelSerializer):
 
 class BookSerializer(serializers.ModelSerializer):
     author = serializers.PrimaryKeyRelatedField(queryset=Author.objects.all())
+    genre = serializers.PrimaryKeyRelatedField(queryset=Genre.objects.all())
     cover_url = serializers.SerializerMethodField()
     cover = serializers.ImageField(max_length=None, write_only=True)
     class Meta:
@@ -78,7 +84,12 @@ class BookSerializer(serializers.ModelSerializer):
         if obj.cover:
             return 'http://{}{}'.format(settings.HOST_NAME, obj.cover.url)
         return None
-        
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['author'] = SimpleAuthorSerializer(instance.author).data
+        representation['genre'] = GenreSerializer(instance.author).data
+        return representation
 
 class RatingSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())

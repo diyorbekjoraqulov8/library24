@@ -14,6 +14,9 @@ from datetime import datetime, date
 
 from account.models import User
 
+class Genre(models.Model):
+    name = models.CharField(max_length=64)
+
 class Author(models.Model):
     full_name = models.CharField(max_length=255)
 
@@ -26,7 +29,7 @@ class Book(models.Model):
     title = models.CharField(max_length=255)
     # slug = AutoSlugField(populate_from=['title', 'id'])
     description = models.TextField(max_length=500)
-    genre = models.CharField(max_length=50)
+    genre = models.ForeignKey(Genre, models.SET_NULL, related_name='genre', null=True)
     length = models.IntegerField()
     published_date = models.IntegerField()
     created_date = models.DateField(default=date.today, blank=True)

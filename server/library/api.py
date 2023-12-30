@@ -10,8 +10,8 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .serializers import RatingSerializer, SimpleAuthorSerializer, AuthorSerializer, BookSerializer
-from .models import Book, Author, Rating
+from .serializers import GenreSerializer, RatingSerializer, SimpleAuthorSerializer, AuthorSerializer, BookSerializer
+from .models import Book, Author, Genre, Rating
 
 class BookPagination(PageNumberPagination):
     page_size = 7
@@ -38,9 +38,9 @@ class BookListCreateAPIView(generics.ListCreateAPIView):
     lookup_field = 'id'
     
     filter_backends = [DjangoFilterBackend, SearchFilter]
-    filterset_fields = ['id', 'title', 'price', 'discount', 'genre']
-    
     search_fields = ['title']
+    filterset_fields = ['id', 'author', 'title', 'price', 'discount', 'genre']
+    
 
     pagination_class = BookPagination
 
@@ -103,3 +103,8 @@ class RatingViewSet(viewsets.ModelViewSet):
                 return Response(RatingSerializer(rating).data, status=status.HTTP_201_CREATED)
             else:
                 return Response(RatingSerializer(rating).data, status=status.HTTP_200_OK)
+            
+class GenreViewSet(viewsets.ModelViewSet):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
+    lookup_field = 'id'
