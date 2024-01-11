@@ -45,7 +45,7 @@ class AuthorSerializer(serializers.ModelSerializer):
         model = Author
         fields = [
             'id',
-            'full_name'
+            'full_name',
             'books'
         ]
 
