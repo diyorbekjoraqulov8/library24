@@ -20,7 +20,7 @@ class BookPagination(PageNumberPagination):
 
 
 class BookRetrieveUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Book.objects.all().order_by('id')  
+    queryset = Book.objects.all().order_by('-created_date')  
     serializer_class = BookSerializer
     lookup_field = 'id'
 
@@ -33,7 +33,7 @@ class BookRetrieveUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
         return super(BookRetrieveUpdateDeleteAPIView, self).get_permissions()
 
 class BookListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Book.objects.all().order_by('id')
+    queryset = Book.objects.all().order_by('-created_date')
     serializer_class = BookSerializer
     lookup_field = 'id'
     
@@ -53,7 +53,7 @@ class BookListCreateAPIView(generics.ListCreateAPIView):
         return super(BookListCreateAPIView, self).get_permissions()
     
 class AuthorListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Author.objects.all().order_by('id')  
+    queryset = Author.objects.all().order_by('-id')  
     serializer_class = SimpleAuthorSerializer
     lookup_field = 'id'
     filter_backends = [DjangoFilterBackend, SearchFilter]
@@ -72,7 +72,7 @@ class AuthorListCreateAPIView(generics.ListCreateAPIView):
         return super(AuthorListCreateAPIView, self).get_permissions()
 
 class AuthorRetrieveUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Author.objects.all().order_by('id')  
+    queryset = Author.objects.all().order_by('-id')  
     serializer_class = AuthorSerializer
     lookup_field = 'id'
 
@@ -85,7 +85,7 @@ class AuthorRetrieveUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
         return super(AuthorRetrieveUpdateDeleteAPIView, self).get_permissions()
 
 class RatingViewSet(viewsets.ModelViewSet):
-    queryset = Rating.objects.all()
+    queryset = Rating.objects.all().order_by("-id")
     serializer_class = RatingSerializer
 
     def create(self, request, *args, **kwargs):
@@ -105,6 +105,6 @@ class RatingViewSet(viewsets.ModelViewSet):
                 return Response(RatingSerializer(rating).data, status=status.HTTP_200_OK)
             
 class GenreViewSet(viewsets.ModelViewSet):
-    queryset = Genre.objects.all()
+    queryset = Genre.objects.all().order_by("-id")
     serializer_class = GenreSerializer
     lookup_field = 'id'
