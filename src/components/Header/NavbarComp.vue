@@ -1,5 +1,6 @@
 <template>
   <Disclosure as="nav" v-slot="{ open }">
+    <!-- navbar top -->
     <div class="flex items-center justify-between 
     seven:hidden px-4 py-3 ss:py-5 ss:px-6 border-b border-b-gray-300">
       <a href="">
@@ -14,6 +15,7 @@
         lang
       </div>
     </div>
+    
     <div class="mx-auto max-w-[1350px] px-[15px] sm:px-6 lg:px-8">
       <div class="relative flex h-max py-3 seven:py-5 items-center justify-between">
         <div class="inset-y-0 left-0 flex items-center seven:hidden">
@@ -31,15 +33,24 @@
           </router-link>
           <div class="sm:ml-6">
             <div class="flex space-x-4">
-              <div v-for="item in navigation" :key="item.name" :class="[item.current ? 'bg-[#F4F4FF] text-[#333]' : 'text-[#333] hover:bg-[#F4F4FF]', 'rounded-md px-3 py-2 text-sm font-medium']" :aria-current="item.current ? 'page' : undefined">
+              <router-link 
+                v-for="item in navigation" :key="item.name" 
+                :class="[item.current ? 'bg-[#F4F4FF] text-[#333]' : 'text-[#333] hover:bg-[#F4F4FF]', 'rounded-md px-3 py-2 text-sm font-medium']" 
+                :aria-current="item.current ? 'page' : undefined"
+                :to="item.path"
+              >
+                <p>{{ item.name }}</p>
+                <!-- <a v-else :href="item.href">{{ item.name }}</a> -->
+              </router-link>
+              <!-- <div v-for="item in navigation" :key="item.name" :class="[item.current ? 'bg-[#F4F4FF] text-[#333]' : 'text-[#333] hover:bg-[#F4F4FF]', 'rounded-md px-3 py-2 text-sm font-medium']" :aria-current="item.current ? 'page' : undefined">
                 <router-link v-if="item?.path" :to="item.path">{{ item.name }}</router-link>
                 <a v-else :href="item.href">{{ item.name }}</a>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
         <div class="min-[900px]:absolute inset-y-0 right-0 flex items-center gap-6 pr-2 max-[600px]:gap-1 sm:pr-0">
-          <div class="relative shadow-sm max-w-[260px] seven:w-[180px] lg:w-[240px]">
+          <!-- <div class="relative shadow-sm max-w-[260px] seven:w-[180px] lg:w-[240px]">
             <input type="text" name="price" id="price" 
             class="
             rounded-[4px] 
@@ -66,20 +77,38 @@
             <div class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
               <img src="/search.svg" class="h-2/5" alt="">
             </div>
-          </div>
+          </div> -->
+          {{ search }}
+          <input-ui
+            :type="'text'"
+            v-model:search="search"
+            :placeholder="`Search...`"
+            :dynamicClasses="''"
+            :styles="{rounded:4}"
+            @enter="searchProduct(search)"
+          >
+            <template #cell(button)>
+              <div 
+                @click="searchProduct(search)"
+                class="h-full flex items-center px-3 bg-[var(--purple)]"
+              >
+                <img src="/search.svg" class="h-2/5" alt="">
+              </div>
+            </template>
+          </input-ui>
 
           <router-link
           to="/cart"
-          class="hidden min-[900px]:block relative rounded-[4px] bg-[#F4F4FF] p-2.5 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:ring-offset-white">
-            <span class="sr-only">View notifications</span>
+          class="navbarPage">
+            <span class="sr-only">Cart page</span>
             <img src="/cart.svg" class="w-6 h-6" alt="cart">
           </router-link>
 
           <router-link
           to="/like"
-          class="hidden min-[900px]:block relative rounded-[4px] bg-[#F4F4FF] p-2.5 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:ring-offset-white">
+          class="navbarPage">
             <div>
-              <span class="sr-only">View notifications</span>
+              <span class="sr-only">Like page</span>
               <img src="/heart.svg" class="h-6 w-6" alt="heart">
             </div>
           </router-link>
@@ -89,9 +118,8 @@
             <div>
               <MenuButton 
               v-if="store?.user?.id"
-              class="relative flex rounded-[4px] bg-[#F4F4FF] text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 focus:ring-offset-white p-2.5">
+              class="relative flex rounded-[4px] bg-[#F4F4FF] text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 focus:ring-offset-white p-2.5 select-none">
                 <span class="sr-only">Open user menu</span>
-                <!-- <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" /> -->
 
                 <img src="/person.svg" class="h-6 w-6" alt="person">
               </MenuButton>
@@ -99,7 +127,7 @@
               <router-link 
               v-else
               to="/login"
-              class="relative flex rounded-[4px] bg-[#F4F4FF] text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 focus:ring-offset-white p-2.5">
+              class="relative flex rounded-[4px] bg-[#F4F4FF] text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 focus:ring-offset-white p-2.5 select-none">
                 <img src="/signin.svg" class="h-6 w-6" alt="person">
               </router-link>
             </div>
@@ -140,13 +168,20 @@
 </template>
 
 <script setup>
+import { ref, computed } from "vue";
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline';
 import { useAuthStore } from "@/stores/auth.js";
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
+
+import SearchIcon from "../icons/SearchIcon.vue";
+import InputUi from "@/components/UI/Forms/Input-UI.vue";
 
 const store = useAuthStore()
 const router = useRouter()
+const route = useRoute()
+
+const search = ref('')
 
 async function logout() {
   await store.logout()
@@ -154,10 +189,20 @@ async function logout() {
   router.push('/')
 }
 
-const navigation = [
-  { name: 'Products', path: '/products', current: true },
-  { name: 'Contacts', href: '#contact', current: false },
-  { name: 'About', path: '/about', current: false },
-  { name: 'Calendar', path: '#', current: false },
-]
+const navigation = computed(() => [
+  { name: 'Products', path: '/products', current: route.name === 'products' },
+  { name: 'Contacts', path: '#contact', current: false },
+  { name: 'About', path: '/about', current: route.name === 'about' },
+  { name: 'Calendar', path: '/', current: route.name === 'calendar' },
+])
+
+function searchProduct(text) {
+  console.log(text);
+}
 </script>
+
+<style lang="css">
+.navbarPage {
+  @apply hidden min-[900px]:block relative rounded-[4px] bg-[#F4F4FF] p-2.5 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:ring-offset-white select-none
+}
+</style>

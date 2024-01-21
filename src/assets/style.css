@@ -1,7 +1,19 @@
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap"); */
 
 @import "./tailwind.css";
 @import "./placeholder.css";
+@import './common.css';
+@import './form.css';
+
+/* Import Swiper styles */
+@import 'swiper/css';
+@import 'swiper/css/effect-fade';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+
+:root {
+  --purple: #6251dd;
+}
 
 .swiper {
   width: 100%;
@@ -9,19 +21,79 @@
 }
 
 .swiper-slide {
-  text-align: center;
-  font-size: 18px;
-  background: #fff;
-
-  /* Center slide text vertically */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/* Number type input */
+.inputNumber::-webkit-outer-spin-button,
+.inputNumber::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+[type='text'], 
+[type='email'], 
+[type='url'], 
+[type='password'], 
+[type='number'], 
+[type='date'], 
+[type='datetime-local'], 
+[type='month'], 
+[type='search'], 
+[type='tel'], 
+[type='time'], 
+[type='week'], 
+[multiple], 
+textarea, 
+select {
+  box-shadow: none !important;
+}
+
+.defaultBtn {
+  @apply text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 pt-[9px] pb-[10px] dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none
+}
+.redBtn {
+  @apply focus:outline-none text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 pt-[9px] pb-[10px] dark:bg-red-600 dark:hover:bg-red-700;
+}
+
+.defaultOutlineBtn {
+  @apply text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 pt-[9px] pb-[10px] text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500
+}
+
+.inputClass {
+  @apply w-full h-full text-gray-800 border border-gray-400 focus:border-gray-900  placeholder-gray-500 focus:outline-none p-3 pt-2.5;
+}
+
+.addProductLabel {
+  @apply block text-sm font-medium text-gray-900 dark:text-white w-max
+}
+
+.top-enter-active,
+.top-leave-active {
+  transition: all 0.3s ease;
+}
+.top-enter-from,
+.top-leave-to {
+  opacity: 0;
+  transform: translateY(-20%);
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 5px #68686863;
+}
+.swiper-button-next::after,
+.swiper-button-prev::after{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  color: #000;
 }

@@ -1,88 +1,177 @@
 <template>
   <div>
+    <!-- {{ rowsData }} -->
     <TableComp 
-      :headerList="headerList"
-      :bodyList="bodyList"
-      :sorted="sorted"
-      @sortTable="sortTable($event)"
-    />
+      :headTable="columns"
+      :bodyTable="rowsData"
+      :dataLength="adminStore.productLength"
+      :loading="loading"
+      @addProduct="addProduct()"
+      @change="changePage($event)"
+    >
+      <template #cell(navbar)="">
+        <div class="flex justify-between pr-[4px] h-max gap-4">
+          <div class="flex">
+            <input-ui
+              :type="'text'"
+              v-model:search="searchProduct"
+              :placeholder="`Qidiruv...`"
+              :styles="{rounded:4}"
+              @enter="searchProducts(searchProduct)"
+            >
+              <template #cell(button)>
+                <div 
+                  @click="searchProducts(searchProduct)"
+                  class="h-full flex items-center px-3 bg-[var(--purple)]"
+                >
+                  <img src="/search.svg" class="h-2/5" alt="">
+                </div>
+              </template>
+            </input-ui>
+          </div>
+          <button @click="addProduct()" class="defaultOutlineBtn flex items-center">
+            Add Product
+          </button>
+        </div>
+      </template>
+
+      <template #cell(title)="{ value, item }">
+        <button 
+          class="text-blue-600 underline"
+          @click="editProduct(item.id)"
+        >
+          {{ value }}
+        </button>
+        
+      </template>
+
+      <template #cell(author)="{ value }">
+        <p>{{ value?.full_name }}</p>
+      </template>
+
+      <template #cell(genre)="{ value }">
+        <p>{{ value }}</p>
+      </template>
+
+      <template #cell(action)="{ item }">
+        <td class="flex items-center p-4 sticky top-0 right-0 bg-white border-l border-l-gray-300">
+          <button @click="editProduct(item.id)" type="button" class="defaultBtn !text-xs">
+            <img src="/edit.svg" alt="" class="w-5 h-5">
+          </button>
+
+          <button @click="deleteProduct(item.id)" type="button" class="redBtn !text-xs">
+            <img src="/delete.svg" alt="" class="w-5 h-5">
+          </button>
+        </td>
+      </template>
+    </TableComp>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, toRefs, onMounted, computed } from "vue";
+
 import TableComp from "@/components/TableComp.vue";
+import InputUi from "@/components/UI/Forms/Input-UI.vue";
 import { useAdminStore } from "@/stores/admin.js";
 
-const store = useAdminStore()
+const props = defineProps({
+  modal: Object
+})
+const { modal } = toRefs(props)
 
-const headerList = ref([
+const adminStore = useAdminStore()
+
+let loading = ref(false)
+let searchProduct = ref('')
+const columns = ref([
   {
     id: 1,
-    text: "Product name",
+    key:'title',
+    label: "Product name",
     sort: {
-      category: 'name',
+      category: 'title',
     }
   },
   {
     id: 2,
-    text: "Color",
+    key:'author',
+    label: "Muallif",
     sort: {
-      category: 'color',
+      category: 'author',
     }
   },
   {
     id: 3,
-    text: "Category",
-    category: 'category',
+    key:'genre',
+    label: "Janr",
     sort: {
-      category: 'category',
+      category: 'genre',
     }
   },
   {
     id: 4,
-    text: "Accessories"
+    key:'length',
+    label: "Uzunligi",
+    sort: {
+      category: 'length',
+    }
   },
   {
     id: 5,
-    text: "Available"
+    key:'published_date',
+    label: "Chiqarilgan Yil",
+    sort: {
+      category: 'published_date',
+    }
   },
   {
     id: 6,
-    text: "Price"
-  },
-  {
-    id: 7,
-    text: "Weight"
+    key:'price',
+    label: "Narxi",
+    sort: {
+      category: 'price',
+    }
   }
 ])
 
-let bodyList = ref(store.productList)
-let sorted = ref({
-  condition: false,
-  category: undefined,
-  default: false
+const rowsData = computed(() => {
+  return adminStore.productList
 })
 
-function sortTable(ct) {
-  const list = [...store.productList];
-  const isSameCategory = sorted.value.category === ct;
-  const isDefault = sorted.value.default;
-
-  bodyList.value = list.sort((a, b) => {
-    if (isSameCategory && isDefault) {
-      return a.id - b.id
-    } else if (isSameCategory) {
-      return b[ct].localeCompare(a[ct])
-    } else {
-      return a[ct].localeCompare(b[ct])
-    }
-  });
-
-  sorted.value.category = isDefault ? undefined : ct;
-  sorted.value.default = isSameCategory && !isDefault ? true : false;
-
-  // console.log(isSameCategory && isDefault ? 'three' : isSameCategory ? 'two' : 'one');
+function addProduct() {
+  
+  modal.value.open = true
+  modal.value.type = 'add-product'
+  modal.value.productId = null
 }
 
+function editProduct(id) {
+  modal.value.open = true
+  modal.value.type = 'edit-product'
+  modal.value.productId = id
+}
+
+async function deleteProduct(id) {
+  await adminStore.delProduct(id)
+}
+
+onMounted(async () => {
+  loading.value = true
+  await adminStore.getProducts('',1)
+  loading.value = false
+})
+
+async function changePage(e) {
+  loading.value = true
+  await adminStore.getProducts(searchProduct.value, e)
+  loading.value = false
+}
+async function searchProducts(text) {
+  if (text.trim()) {
+    loading.value = true
+    await adminStore.getProducts(text, 1)
+    loading.value = false
+  }
+}
 </script>

@@ -11,17 +11,20 @@
         </div>
         <div class="flex flex-col">
           <div class="flex flex-col gap-1.5 mb-3">
-            <label class="
+            <label 
+            for="email"
+            class="
               text-sm
               xl:text-lg
               font-semibold
             ">E-mail</label>
-            <InputComp 
-              id="email" 
+            <IndexComp 
+              :id="'email'" 
               :required="true" 
               v-model:input="userEmail"
-              :error="error && error.type == 'userEmail' ? error.message : ''" 
-              inputType="email" />
+              :error="error && error.type == 'userEmail' ? error.message : null" 
+              inputType="email"
+            />
           </div>
 
           <div class="flex flex-col gap-1.5">
@@ -32,31 +35,21 @@
               font-semibold
             "
             >Password</label>
-            <InputComp 
+            <IndexComp 
               id="password" 
-              min="6"
+              :min="6"
               :required="true" 
               v-model:input="userPassword"
-              :error="error && error.type == 'userPassword' ? error.message : ''" inputType="password" />
+              :error="error && error.type == 'userPassword' ? error.message : null" inputType="password" 
+            />
           </div>
-
-          <div class="flex items-center justify-start mt-2.5 gap-1.5">
-            <InputComp id="remember" :required="false" v-model:input="rememberMe"
-              inputType="checkbox" />
-            <label class="
-              text-xs
-              xl:text-base
-              font-semibold
-              text-indigo-600
-            ">Remember Me</label>
-          </div>
-
 
           <div class="flex flex-col gap-2 xl:gap-2.5 mt-20">
-            <ButtonComp @click="submit"
-              class="bg-btn-orange border border-btn-orange hover:bg-btn-orange-hover text-white">Login</ButtonComp>
+            <button 
+              type="submit"
+              class="bg-btn-orange border border-btn-orange hover:bg-btn-orange-hover text-white">Login</button>
             <router-link to="/register">
-              <ButtonComp class="border hover:bg-slate-100">Register</ButtonComp>
+              <button class="border hover:bg-slate-100">Register</button>
             </router-link>
           </div>
         </div>
@@ -69,8 +62,7 @@
 import { ref } from "vue";
 import { useRouter } from 'vue-router'
 import { useAuthStore } from "@/stores/auth.js";
-import InputComp from '@/components/UI/InputComp.vue';
-import ButtonComp from '@/components/UI/ButtonComp.vue';
+import IndexComp from '../../components/UI/Forms/IndexComp.vue';
 import { validateEmail } from '@/directives/auth.js';
 import { localStorageVerify } from "@/directives/verifyToken.js";
 
@@ -82,7 +74,6 @@ const router = useRouter()
 
 let userEmail = ref('')
 let userPassword = ref('')
-let rememberMe = ref(false)
 
 let isWorking = ref(false)
 let error = ref(null)
@@ -102,12 +93,12 @@ const submit = async () => {
     if (!validateEmail(userEmail.value)) {
       error.value = {
         type: 'userEmail',
-        message: 'An user email is required'
+        message: 'user email is required'
       }
     } else if (!userPassword.value) {
       error.value = {
         type: 'userPassword',
-        message: 'A user password is required'
+        message: 'user password is required'
       }
     }
 

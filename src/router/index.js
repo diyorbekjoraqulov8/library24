@@ -77,7 +77,7 @@ const router = createRouter({
         },
         {
           path: '/admin/products',
-          name: 'products',
+          name: 'admin-products',
           component: () => import("../views/Admin/pages/ProductsView.vue"),
         },
       ]

@@ -18,12 +18,12 @@
               font-semibold
             "
             >Name</label>
-            <InputComp 
+            <IndexComp 
             id="name"
-            min='4'
+            :min='4'
             :required="true"
             v-model:input="userName"
-            :error="error && error.type == 'userName' ? error.message : ''"
+            :error="error && error.type == 'userName' ? error.message : null"
             inputType="text"/>
           </div>
 
@@ -35,11 +35,11 @@
               font-semibold
             "
             >E-mail</label>
-            <InputComp 
+            <IndexComp 
             id="email"
             :required="true"
             v-model:input="userEmail"
-            :error="error && error.type == 'userEmail' ? error.message : ''"
+            :error="error && error.type == 'userEmail' ? error.message : null"
             inputType="email"/>
           </div>
 
@@ -51,21 +51,21 @@
               font-semibold
             "
             >Password</label>
-            <InputComp 
+            <IndexComp 
             id="password"
-            min="6"
+            :min="6"
             :required="true"
             v-model:input="userPassword"
-            :error="error && error.type == 'userPassword' ? error.message : ''"
+            :error="error && error.type == 'userPassword' ? error.message : null"
             inputType="password"/>
           </div>
           
           <div class="flex flex-col gap-2 xl:gap-2.5 mt-4">
-            <ButtonComp 
-              @click="submit"
-              class="bg-btn-orange border border-btn-orange hover:bg-btn-orange-hover text-white">Register</ButtonComp>
+            <button 
+              type="submit"
+              class="bg-btn-orange border border-btn-orange hover:bg-btn-orange-hover text-white">Register</button>
             <router-link to="/login">
-              <ButtonComp class="border hover:bg-slate-100">Login</ButtonComp>
+              <button class="border hover:bg-slate-100">Login</button>
             </router-link>
           </div>
         </div>
@@ -77,8 +77,7 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from 'vue-router'
-import InputComp from '@/components/UI/InputComp.vue';
-import ButtonComp from '@/components/UI/ButtonComp.vue';
+import IndexComp from '../../components/UI/Forms/IndexComp.vue';
 import { validateEmail } from '@/directives/auth.js';
 import { useAuthStore } from "@/stores/auth.js";
 import { localStorageVerify } from "@/directives/verifyToken.js";

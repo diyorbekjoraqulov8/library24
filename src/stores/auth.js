@@ -66,8 +66,6 @@ export const useAuthStore = defineStore('auth', () => {
       });
 
       user.value = res.data
-
-      console.log('user find');
     } catch (error) {
       console.log(error);
     }

@@ -14,24 +14,24 @@
           v-for="index in 10" :key="index">
             <div class="w-full flex flex-col justify-center p-[14px] border">
               <div class="w-full h-[180px] mx-auto">
-                <LoaderComp />
+                <SkeletonLoader />
               </div>
               <div class="w-full flex flex-col gap-[14px] mt-[14px]">
                 <div class="w-5/6 h-[30px]">
-                  <LoaderComp />
+                  <SkeletonLoader />
                 </div>
                 <div class="w-3/5 h-[24px]">
-                  <LoaderComp />
+                  <SkeletonLoader />
                 </div>
                 <div class="w-3/4 h-[20px]">
-                  <LoaderComp />
+                  <SkeletonLoader />
                 </div>
                 <div class="w-full h-[32px] flex gap-[10px]">
                   <div class="flex-grow h-full">
-                    <LoaderComp class="rounded-md"/>
+                    <SkeletonLoader class="rounded-md"/>
                   </div>
                   <div class="w-1/5 h-full">
-                    <LoaderComp class="rounded-md"/>
+                    <SkeletonLoader class="rounded-md"/>
                   </div>
                 </div>
               </div>
@@ -55,7 +55,7 @@
 import { onMounted } from "vue";
 import Product from "@/components/UI/ProductComp.vue";
 import { useCounterStore } from '@/stores/counter.js';
-import LoaderComp from '@/components/LoaderComp.vue';
+import SkeletonLoader from '@/components/Loader/SkeletonLoader.vue';
 
 const mainStore = useCounterStore()
 

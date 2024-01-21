@@ -9,17 +9,19 @@ const authStore = useAuthStore()
 let navbarSticky = ref(false)
 
 onMounted(() => {
+  
   authStore.init()
 
   // Navbar scroll
   let navbar = document.getElementById("navbar")
-  let newProductsTitle = document.getElementById("newProductsTitle")
-  
+  let staticProductsTitle = document.querySelectorAll(".staticProductsTitle")
   window.onscroll = () => {
     navbarSticky.value = window.scrollY > navbar.clientHeight
-
-    // New Products page title style
-    newProductsTitle.style.top = `${navbar.clientHeight}px`
+    if (staticProductsTitle[0].style.top != `${navbar.clientHeight}px`) {
+      staticProductsTitle.forEach(element => {
+        element.style.top = `${navbar.clientHeight}px`
+      });
+    }
   }
 })
 
@@ -28,7 +30,7 @@ onMounted(() => {
 <template>
   <div class="relative">
     <nav id="navbar" 
-    class="bg-white border"
+    class="bg-white border-b border-b-gray-300"
     :class="{'sticky top-0 left-0 z-[11]': navbarSticky}">
       <Navbar/>
     </nav>

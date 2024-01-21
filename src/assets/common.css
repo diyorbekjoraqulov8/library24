@@ -1,0 +1,3 @@
+.lib__container {
+  @apply mx-auto max-w-[1350px] px-[15px]
+}

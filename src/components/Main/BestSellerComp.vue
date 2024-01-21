@@ -1,42 +1,55 @@
 <template>
-  <div class="mx-auto max-w-[1350px] px-[15px] py-4">
-    <h2 class="mb-4 font-manrope leading-6 text-xl font-bold"># Best Seller</h2>
-    <div
-    v-if="!mainStore.products?.length"
-    class="grid gap-x-[5px] gap-y-10 grid-cols-1 ss:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-y-[12px]">
-      <div v-for="index in 5" :key="index">
-        <div class="w-full flex flex-col justify-center p-[14px] border border-[#e5e7eb] bg-white rounded-[6px]">
-          <div class="w-full h-[180px] mx-auto">
-            <LoaderComp />
-          </div>
-          <div class="w-full flex flex-col gap-[14px] mt-[14px]">
-            <div class="w-5/6 h-[30px]">
-              <LoaderComp />
+  <div class="mx-auto max-w-[1350px] px-[15px] py-4 mb-[600px]">
+    <h2 
+      class="staticProductsTitle mb-4 font-manrope leading-6 text-xl font-bold w-max bg-white p-2 pr-4 cursor-pointer sticky left-0 z-10"
+    ># Best Seller ></h2>
+
+    <div v-if="!mainStore.newProducts?.items?.length">
+      <Swiper 
+        :navigation="true"
+        :keyboard="true"
+        :modules="modules"
+        :breakpoints="swiperOption.breakpoints"
+      >
+        <SwiperSlide v-for="index in 5" :key="index">
+          <div class="w-full flex flex-col justify-center p-[14px] border border-[#e5e7eb] bg-white rounded-[6px]">
+            <div class="w-full h-[180px] mx-auto">
+              <SkeletonLoader />
             </div>
-            <div class="w-3/5 h-[24px]">
-              <LoaderComp />
-            </div>
-            <div class="w-3/4 h-[20px]">
-              <LoaderComp />
-            </div>
-            <div class="w-full h-[32px] flex gap-[10px]">
-              <div class="flex-grow h-full">
-                <LoaderComp class="rounded-md"/>
+            <div class="w-full flex flex-col gap-[14px] mt-[14px]">
+              <div class="w-5/6 h-[30px]">
+                <SkeletonLoader />
               </div>
-              <div class="w-1/5 h-full">
-                <LoaderComp class="rounded-md"/>
+              <div class="w-3/5 h-[24px]">
+                <SkeletonLoader />
+              </div>
+              <div class="w-3/4 h-[20px]">
+                <SkeletonLoader />
+              </div>
+              <div class="w-full h-[32px] flex gap-[10px]">
+                <div class="flex-grow h-full">
+                  <SkeletonLoader class="rounded-md"/>
+                </div>
+                <div class="w-1/5 h-full">
+                  <SkeletonLoader class="rounded-md"/>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </SwiperSlide>
+      </Swiper>
     </div>
-    <div 
-    v-else
-    class="grid gap-x-[5px] gap-y-10 grid-cols-1 ss:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-y-[12px]">
-      <Product 
-      v-for="product in mainStore.products" :key="product.id"
-      :product="product"/>
+    <div v-else>
+      <Swiper 
+        :navigation="true"
+        :keyboard="true"
+        :modules="modules"
+        :breakpoints="swiperOption.breakpoints"
+      >
+        <SwiperSlide v-for="product in mainStore.newProducts?.items" :key="product.id">
+          <Product :product="product"/>
+        </SwiperSlide>
+      </Swiper>
     </div>
   </div>
 </template>
@@ -45,8 +58,42 @@
 import { onMounted } from "vue";
 import Product from "@/components/UI/ProductComp.vue";
 import { useCounterStore } from '@/stores/counter.js';
-import LoaderComp from '@/components/LoaderComp.vue';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import SkeletonLoader from '../Loader/SkeletonLoader.vue';
 
 const mainStore = useCounterStore()
 
+// import required modules
+import { Navigation, Mousewheel, Keyboard, EffectFade, Autoplay } from 'swiper/modules';
+
+const modules = [Navigation, Mousewheel, Keyboard, EffectFade, Autoplay]
+
+const swiperOption = {
+  breakpoints:{
+    0:{
+      slidesPerView: 1,
+      spaceBetween: 5
+    },
+    480:{
+      slidesPerView: 2,
+      spaceBetween: 5
+    },
+    640:{
+      slidesPerView: 3,
+      spaceBetween: 5
+    },
+    1024:{
+      slidesPerView: 4,
+      spaceBetween: 5
+    },
+    1280:{
+      slidesPerView: 5,
+      spaceBetween: 5
+    },
+  }
+}
+
+onMounted(() => {
+  mainStore.getNewProducts()
+})
 </script>
