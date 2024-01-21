@@ -58,7 +58,6 @@ import { useCounterStore } from '@/stores/counter.js';
 import SkeletonLoader from '@/components/Loader/SkeletonLoader.vue';
 import { ChevronLeftIcon } from '@heroicons/vue/24/solid'
 
-
 const mainStore = useCounterStore()
 
 onMounted(() => {
