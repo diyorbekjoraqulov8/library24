@@ -19,7 +19,8 @@
     <div class="mx-auto max-w-[1350px] px-[15px] sm:px-6 lg:px-8">
       <div class="relative flex h-max py-3 seven:py-5 items-center justify-between">
         <div class="inset-y-0 left-0 flex items-center seven:hidden">
-          <!-- Mobile menu button-->
+          <!-- Mobile menu button -->
+          
           <DisclosureButton class="text-black relative inline-flex items-center justify-center rounded-md p-2 hover:bg-[#F4F4FF] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
             <span class="absolute -inset-0.5" />
             <span class="sr-only">Open main menu</span>
@@ -174,7 +175,6 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline';
 import { useAuthStore } from "@/stores/auth.js";
 import { useRouter, useRoute } from 'vue-router';
 
-import SearchIcon from "../icons/SearchIcon.vue";
 import InputUi from "@/components/UI/Forms/Input-UI.vue";
 
 const store = useAuthStore()

@@ -2,29 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { RouterView } from 'vue-router'
 import Navbar from "@/components/Header/NavbarComp.vue";
-import MobileMenu from "@/components/Header/MobileMenu.vue";
-import { useAuthStore } from "@/stores/auth.js";
-
-const authStore = useAuthStore()
-let navbarSticky = ref(false)
-
-onMounted(() => {
-  
-  authStore.init()
-
-  // Navbar scroll
-  let navbar = document.getElementById("navbar")
-  let staticProductsTitle = document.querySelectorAll(".staticProductsTitle")
-  window.onscroll = () => {
-    navbarSticky.value = window.scrollY > navbar.clientHeight
-    if (staticProductsTitle[0].style.top != `${navbar.clientHeight}px`) {
-      staticProductsTitle.forEach(element => {
-        element.style.top = `${navbar.clientHeight}px`
-      });
-    }
-  }
-})
-
+import MobileMenu from "../components/Header/MobileMenu.vue";
 </script>
 
 <template>
@@ -36,6 +14,7 @@ onMounted(() => {
     </nav>
     <main>
       <RouterView />
+      <Slider />
     </main>
 
     <!-- Mobile menu -->
