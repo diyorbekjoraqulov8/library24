@@ -3,7 +3,7 @@
   <div class="bg-[#F1F4FA]">
     <div class="mx-auto max-w-[1350px] px-[15px] pt-4">
       <router-link to="/" class="w-max flex items-center mb-4 gap-2">
-        <img src="/Arrow.svg" alt="">
+        <ChevronLeftIcon class="h-6 w-6" />
         <p class="leading-5 text-lg ss:text-xl font-semibold">Back home</p>
       </router-link>
       <div class="mx-auto max-w-xs ss:max-w-[1320px]">
@@ -56,6 +56,8 @@ import { onMounted } from "vue";
 import Product from "@/components/UI/ProductComp.vue";
 import { useCounterStore } from '@/stores/counter.js';
 import SkeletonLoader from '@/components/Loader/SkeletonLoader.vue';
+import { ChevronLeftIcon } from '@heroicons/vue/24/solid'
+
 
 const mainStore = useCounterStore()
 
