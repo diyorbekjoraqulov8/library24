@@ -24,7 +24,7 @@
                   @click="searchProducts(searchProduct)"
                   class="h-full flex items-center px-3 bg-[var(--purple)]"
                 >
-                  <SearchIcon class="h-2/5"/>
+                  <SearchIcon class="text-white"/>
                 </div>
               </template>
             </input-ui>
@@ -56,11 +56,11 @@
       <template #cell(action)="{ item }">
         <td class="flex items-center p-4 sticky top-0 right-0 bg-white border-l border-l-gray-300">
           <button @click="editProduct(item.id)" type="button" class="defaultBtn !text-xs">
-            <EditIcon class="w-5 h-5"/>
+            <EditIcon />
           </button>
 
           <button @click="deleteProduct(item.id)" type="button" class="redBtn !text-xs">
-            <DeleteIcon class="w-5 h-5"/>
+            <DeleteIcon />
           </button>
         </td>
       </template>

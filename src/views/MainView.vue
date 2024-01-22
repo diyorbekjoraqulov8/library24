@@ -14,7 +14,6 @@ import MobileMenu from "../components/Header/MobileMenu.vue";
     </nav>
     <main>
       <RouterView />
-      <Slider />
     </main>
 
     <!-- Mobile menu -->
