@@ -52,6 +52,11 @@ const router = createRouter({
           path: '/profil',
           name: 'profil',
           component: ProfilView,
+        },
+        {
+          path: "/:pathMatch(.*)*",
+          name: "error",
+          component: import("@/views/Error/ErrorView.vue")
         }
       ]
     },
