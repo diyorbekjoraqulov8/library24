@@ -1,8 +1,8 @@
 <template>
   <div class="mx-auto max-w-[1350px] px-[15px] py-4">
     <h2 
-      class="staticProductsTitle mb-4 font-manrope leading-6 text-xl font-bold w-max bg-white p-2 pr-4 cursor-pointer sticky left-0 z-10"
-    ># Yangi kelganlar ></h2>
+      class="staticProductsTitle flex items-center mb-4 font-manrope leading-6 text-xl font-bold w-max bg-white p-2 pr-4 cursor-pointer sticky left-0 z-10"
+    ># Yangi kelganlar <ChevronRightIcon class="h-5" /></h2>
     <!-- {{ mainStore.newProducts?.items }} -->
     <div v-if="!mainStore.newProducts?.items?.length">
       <Swiper 
@@ -60,6 +60,7 @@ import Product from "@/components/UI/ProductComp.vue";
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { useCounterStore } from '@/stores/counter.js';
 import SkeletonLoader from '../Loader/SkeletonLoader.vue';
+import ChevronRightIcon from "@/components/icons/ChevronRightIcon.vue";
 
 const mainStore = useCounterStore()
 

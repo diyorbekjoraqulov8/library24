@@ -23,7 +23,7 @@
       <div class="flex gap-[8px] justify-between h-[35px] text-white">
         <button class="select-none h-full bg-[#6251DD] flex-grow rounded-[8px]">Harid qilish</button>
         <button class="select-none w-[50px] h-full bg-[#EF6B4A] rounded-[8px] flex justify-center items-center">
-          <img src="/cart.svg" alt="cart">
+          <CartIcon />
         </button>
       </div>
     </div>
@@ -33,6 +33,7 @@
 <script setup>
 import { toRefs, ref } from "vue";
 import StarRating from 'vue-star-rating'
+import CartIcon from '@/components/icons/CartIcon.vue'
 
 import SkeletonLoader from "../Loader/SkeletonLoader.vue";
 const props = defineProps(['product'])

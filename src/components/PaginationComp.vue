@@ -6,9 +6,11 @@
         class="pageChangeBtn ms-0 rounded-s-lg disabledClass"
         :disabled="hasFirst"
       >
-        <svg class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+        <!-- <svg class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
-        </svg>
+        </svg> -->
+
+        <ChevronLeftIcon class="w-3 h-3 rtl:rotate-180" aria-hidden="true" />
       </button>
     </li>
 
@@ -38,9 +40,11 @@
         class="pageChangeBtn rounded-e-lg disabledClass"
       >
         <!-- Next -->
-        <svg class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+        <!-- <svg class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-        </svg>
+        </svg> -->
+
+        <ChevronRightIcon class="w-3 h-3" aria-hidden="true" />
       </button>
     </li>
   </ul>
@@ -48,6 +52,9 @@
 
 <script setup>
 import { ref, toRefs, computed, watch } from "vue";
+import ChevronLeftIcon from '@/components/icons/ChevronLeftIcon.vue'
+import ChevronRightIcon from '@/components/icons/ChevronRightIcon.vue'
+
 
 const props = defineProps({
   currentPage: {  // current page

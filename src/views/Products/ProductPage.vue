@@ -2,6 +2,8 @@
   <div class="mx-auto max-w-[1350px] px-[15px] pt-4">
       <router-link to="/" class="w-max flex items-center mb-4 gap-2">
         <img src="/Arrow.svg" alt="">
+        <ChevronLeftIcon />
+
         <p class="leading-5 text-lg ss:text-xl font-semibold">Back home</p>
       </router-link>
       hello
@@ -11,6 +13,7 @@
 <script setup>
 import { onMounted } from "vue";
 import { useRoute } from 'vue-router';
+import ChevronLeftIcon from '@/components/icons/ChevronLeftIcon.vue'
 
 const curRoute = useRoute();
 const paramsId = curRoute?.params?.id;

@@ -24,7 +24,7 @@
                   @click="searchProducts(searchProduct)"
                   class="h-full flex items-center px-3 bg-[var(--purple)]"
                 >
-                  <img src="/search.svg" class="h-2/5" alt="">
+                  <SearchIcon class="h-2/5"/>
                 </div>
               </template>
             </input-ui>
@@ -56,11 +56,11 @@
       <template #cell(action)="{ item }">
         <td class="flex items-center p-4 sticky top-0 right-0 bg-white border-l border-l-gray-300">
           <button @click="editProduct(item.id)" type="button" class="defaultBtn !text-xs">
-            <img src="/edit.svg" alt="" class="w-5 h-5">
+            <EditIcon class="w-5 h-5"/>
           </button>
 
           <button @click="deleteProduct(item.id)" type="button" class="redBtn !text-xs">
-            <img src="/delete.svg" alt="" class="w-5 h-5">
+            <DeleteIcon class="w-5 h-5"/>
           </button>
         </td>
       </template>
@@ -70,6 +70,9 @@
 
 <script setup>
 import { ref, toRefs, onMounted, computed } from "vue";
+import SearchIcon from '@/components/icons/SearchIcon.vue'
+import DeleteIcon from '@/components/icons/DeleteIcon.vue'
+import EditIcon from '@/components/icons/EditIcon.vue'
 
 import TableComp from "@/components/TableComp.vue";
 import InputUi from "@/components/UI/Forms/Input-UI.vue";

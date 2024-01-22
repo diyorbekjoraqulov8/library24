@@ -35,10 +35,13 @@
           :class="[classes.icons]"
           class="cursor-pointer absolute flex items-center rounded-e-md"
         >
-          <svg width="14" height="9" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- <svg width="14" height="9" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path v-if="!dropdownOpen" d="M13 1L7 7L1 1" stroke="#505259" stroke-width="2"/>
             <path v-else d="M13 8L7 2L1 8" stroke="#505259" stroke-width="2"/>
-          </svg>
+          </svg> -->
+          
+          <ChevronDownIcon v-if="!dropdownOpen" class="w-3.5 h-2.5" />
+          <ChevronUpIcon v-else class="w-3.5 h-2.5" />
 
 
         </div>
@@ -101,323 +104,307 @@
   </div>
 </template>
 <script>
+import ChevronDownIcon from "@/components/icons/ChevronDownIcon.vue";
+import ChevronUpIcon from "@/components/icons/ChevronUpIcon.vue";
+
 import pointerScroll from "./pointerScroll";
 export default {
-  props: {
-    width: {
-      type: String,
-      default: '300px'
+    props: {
+        width: {
+            type: String,
+            default: '300px'
+        },
+        height: {
+            type: String,
+            default: '44px'
+        },
+        selectValue: [String, Object],
+        searchLink: String,
+        rounded: String,
+        font: String,
+        value: Object,
+        name: {
+            type: String,
+            required: false,
+            default: () => ""
+        },
+        options: Array,
+        optionLabel: {
+            type: String,
+            required: false,
+            default: () => null
+        },
+        optionKey: {
+            type: String,
+            required: false,
+            default: () => null
+        },
+        placeholder: {
+            type: String,
+            required: false,
+            default: () => "Search Here"
+        },
+        maxHeight: {
+            type: String,
+            default: () => "220px",
+            required: false
+        },
+        inputId: {
+            type: String,
+            default: () => "single-select",
+            required: false
+        },
+        classes: {
+            type: Object,
+            required: false,
+            default: () => {
+                return {
+                    pointer: -1,
+                    wrapper: "single-select-wrapper",
+                    input: "search-input",
+                    icons: "icons",
+                    required: "required",
+                    activeClass: "active",
+                    dropdown: "dropdown"
+                };
+            }
+        },
+        initial: {
+            type: String,
+            required: false,
+            default: () => null
+        },
+        disabled: {
+            type: Boolean,
+            required: false,
+            default: () => false
+        },
+        required: {
+            type: Boolean,
+            required: false,
+            default: () => false
+        },
+        maxResults: {
+            type: Number,
+            required: false,
+            default: () => 30
+        },
+        tabindex: {
+            type: String,
+            required: false,
+            default: () => {
+                return "";
+            }
+        },
+        getOptionDescription: {
+            type: Function,
+            default: function (option) {
+                if (this.optionKey && this.optionLabel) {
+                    return option[this.optionKey] + " " + option[this.optionLabel];
+                }
+                if (this.optionLabel) {
+                    return option[this.optionLabel];
+                }
+                if (this.optionKey) {
+                    return option[this.optionKey];
+                }
+                return option;
+            }
+        },
+        getOptionValue: {
+            type: Function,
+            default: function (option) {
+                if (this.optionKey) {
+                    return option[this.optionKey];
+                }
+                if (this.optionLabel) {
+                    return option[this.optionLabel];
+                }
+                return option;
+            }
+        },
+        filterBy: {
+            type: Function,
+            default: function (option) {
+                if (this.optionLabel && this.optionKey) {
+                    return (option[this.optionLabel]
+                        .toString()
+                        .toLowerCase()
+                        .includes(this.searchText.toString().toLowerCase()) ||
+                        option[this.optionKey]
+                            .toString()
+                            .toLowerCase()
+                            .includes(this.searchText.toString().toLowerCase()));
+                }
+                if (this.optionLabel) {
+                    return option[this.optionLabel]
+                        .toString()
+                        .toLowerCase()
+                        .includes(this.searchText.toString().toLowerCase());
+                }
+                if (this.optionKey) {
+                    option[this.optionKey]
+                        .toString()
+                        .toLowerCase()
+                        .includes(this.searchText.toString().toLowerCase());
+                }
+                return option
+                    .toString()
+                    .toLowerCase()
+                    .includes(this.searchText.toString().toLowerCase());
+            }
+        }
     },
-    height: {
-      type: String,
-      default: '44px'
+    mixins: [pointerScroll],
+    mounted() {
+        document.addEventListener("click", this.handleClickOutside);
+        document.addEventListener("keyup", this.handleClickOutside);
+        if (this.value && this.options.filter(option => option.id === this.value.id)) {
+            this.selectedOption = this.value;
+            return;
+        }
+        this.searchText = this.initial;
     },
-    selectValue: [String, Object],
-    searchLink:String,
-    rounded: String,
-    font: String,
-    value: Object,
-    name: {
-      type: String,
-      required: false,
-      default: () => ""
+    unmounted() {
+        document.removeEventListener("keyup", this.handleClickOutside);
+        document.removeEventListener("click", this.handleClickOutside);
     },
-    options: Array,
-    optionLabel: {
-      type: String,
-      required: false,
-      default: () => null
-    },
-    optionKey: {
-      type: String,
-      required: false,
-      default: () => null
-    },
-    placeholder: {
-      type: String,
-      required: false,
-      default: () => "Search Here"
-    },
-    maxHeight: {
-      type: String,
-      default: () => "220px",
-      required: false
-    },
-    inputId: {
-      type: String,
-      default: () => "single-select",
-      required: false
-    },
-    classes: {
-      type: Object,
-      required: false,
-      default: () => {
+    data() {
         return {
-          pointer: -1,
-          wrapper: "single-select-wrapper",
-          input: "search-input",
-          icons: "icons",
-          required: "required",
-          activeClass: "active",
-          dropdown: "dropdown"
+            searchText: null,
+            selectedOption: null,
+            dropdownOpen: false,
+            searchOptions: []
         };
-      }
     },
-    initial: {
-      type: String,
-      required: false,
-      default: () => null
-    },
-    disabled: {
-      type: Boolean,
-      required: false,
-      default: () => false
-    },
-    required: {
-      type: Boolean,
-      required: false,
-      default: () => false
-    },
-    maxResults: {
-      type: Number,
-      required: false,
-      default: () => 30
-    },
-    tabindex: {
-      type: String,
-      required: false,
-      default: () => {
-        return "";
-      }
-    },
-    getOptionDescription: {
-      type: Function,
-      default: function(option) {
-        if (this.optionKey && this.optionLabel) {
-          return option[this.optionKey] + " " + option[this.optionLabel];
+    watch: {
+        value(curr) {
+            this.selectedOption = curr;
+        },
+        async searchText(curr, prev) {
+            console.log("searchText");
+            if (curr !== prev) {
+                this.pointer = -1;
+            }
+        },
+        selectedOption(curr) {
+            if (curr) {
+                this.$emit("update:selectValue", curr);
+            }
+        },
+        dropdownOpen(curr, prev) {
+            if (curr === prev) {
+                return;
+            }
+            if (!curr) {
+                // this.searchText = null;
+                return;
+            }
+            if (!this.searchText) {
+                this.searchText = "";
+            }
+            this.$nextTick().then(() => {
+                this.$refs.search.focus();
+            });
         }
-        if (this.optionLabel) {
-          return option[this.optionLabel];
+    },
+    computed: {
+        isRequired() {
+            if (!this.required) {
+                return "";
+            }
+            if (this.selectedOption) {
+                return "";
+            }
+            return "required";
+        },
+        matchingOptions() {
+            if (!this.dropdownOpen) {
+                return false;
+            }
+            if (this.searchText === null) {
+                return null;
+            }
+            if (!this.searchText.length) {
+                return [...this.options].slice(0, this.maxResults);
+            }
+            let res = this.options
+                .filter(option => this.filterBy(option))
+                .slice(0, this.maxResults);
+            return res;
         }
-        if (this.optionKey) {
-          return option[this.optionKey];
+    },
+    methods: {
+        getSelectValue(event) {
+            this.$emit("update:selectValue", event.target.value);
+            this.searchText = event.target.value;
+        },
+        setPointerIdx(idx) {
+            this.pointer = idx;
+        },
+        seedSearchText() {
+            this.dropdownOpen = true;
+            if (this.searchText !== null) {
+                return;
+            }
+            this.searchText = "";
+        },
+        switchToSearch(event) {
+            this.$emit("update:selectValue", event.target.value);
+            this.$refs.selectedValue.value = null;
+            this.searchText = event.target.value;
+            this.selectedOption = null;
+            this.dropdownOpen = true;
+        },
+        toggleDropdown() {
+            if (this.disabled) {
+                return;
+            }
+            this.dropdownOpen = !this.dropdownOpen;
+        },
+        closeOut() {
+            this.selectedOption = null;
+            this.dropdownOpen = false;
+            this.searchText = null;
+            this.$emit("update:selectValue", null);
+        },
+        movePointerDown() {
+            if (!this.matchingOptions) {
+                return;
+            }
+            if (this.pointer >= this.matchingOptions.length - 1) {
+                return;
+            }
+            this.pointer++;
+        },
+        movePointerUp() {
+            if (this.pointer > 0) {
+                this.pointer--;
+            }
+        },
+        setOption() {
+            if (!this.matchingOptions || !this.matchingOptions.length) {
+                return;
+            }
+            if (this.pointer === -1) {
+                this.pointer++;
+            }
+            this.selectedOption = this.matchingOptions[this.pointer];
+            this.searchText = null;
+            this.dropdownOpen = false;
+            this.pointer = -1;
+            this.$nextTick().then(() => {
+                this.$refs.match.focus();
+            });
+        },
+        handleClickOutside(e) {
+            if (this.$el.contains(e.target) || e.target.id === this.inputId) {
+                return;
+            }
+            this.dropdownOpen = false;
         }
-        return option;
-      }
     },
-    getOptionValue: {
-      type: Function,
-      default: function(option) {
-        if (this.optionKey) {
-          return option[this.optionKey];
-        }
-
-        if (this.optionLabel) {
-          return option[this.optionLabel];
-        }
-
-        return option;
-      }
-    },
-    filterBy: {
-      type: Function,
-      default: function(option) {
-        if (this.optionLabel && this.optionKey) {
-          return (
-            option[this.optionLabel]
-              .toString()
-              .toLowerCase()
-              .includes(this.searchText.toString().toLowerCase()) ||
-            option[this.optionKey]
-              .toString()
-              .toLowerCase()
-              .includes(this.searchText.toString().toLowerCase())
-          );
-        }
-
-        if (this.optionLabel) {
-          return option[this.optionLabel]
-            .toString()
-            .toLowerCase()
-            .includes(this.searchText.toString().toLowerCase());
-        }
-
-        if (this.optionKey) {
-          option[this.optionKey]
-            .toString()
-            .toLowerCase()
-            .includes(this.searchText.toString().toLowerCase());
-        }
-
-        return option
-          .toString()
-          .toLowerCase()
-          .includes(this.searchText.toString().toLowerCase());
-      }
-    }
-  },
-  mixins: [pointerScroll],
-  mounted() {
-    document.addEventListener("click", this.handleClickOutside);
-    document.addEventListener("keyup", this.handleClickOutside);
-    if (this.value && this.options.filter(option => option.id === this.value.id)) {
-      this.selectedOption = this.value;
-
-      return;
-    }
-    this.searchText = this.initial;
-  },
-  unmounted() {
-    document.removeEventListener("keyup", this.handleClickOutside);
-    document.removeEventListener("click", this.handleClickOutside);
-  },
-  data() {
-    return {
-      searchText: null,
-      selectedOption: null,
-      dropdownOpen: false,
-      searchOptions: []
-    };
-  },
-  watch: {
-    value(curr) {
-      this.selectedOption = curr;
-    },
-    async searchText(curr, prev) {
-      console.log("searchText");
-      if (curr !== prev) {
-        this.pointer = -1;
-      }
-    },
-    selectedOption(curr) {
-      if (curr) {
-        this.$emit("update:selectValue", curr);
-      }
-    },
-    dropdownOpen(curr, prev) {
-      if (curr === prev) {
-        return;
-      }
-
-      if (!curr) {
-        // this.searchText = null;
-        return;
-      }
-
-      if (!this.searchText) {
-        this.searchText = "";
-      }
-
-      this.$nextTick().then(() => {
-        this.$refs.search.focus();
-      });
-    }
-  },
-  computed: {
-    isRequired() {
-      if (!this.required) {
-        return "";
-      }
-
-      if (this.selectedOption) {
-        return "";
-      }
-
-      return "required";
-    },
-    matchingOptions() {
-      if (!this.dropdownOpen) {
-        return false;
-      }
-      if (this.searchText === null) {
-        return null;
-      }
-
-      if (!this.searchText.length) {
-        return [...this.options].slice(0, this.maxResults);
-      }
-
-      let res = this.options
-        .filter(option => this.filterBy(option))
-        .slice(0, this.maxResults);
-      return res
-    }
-  },
-  methods: {
-    getSelectValue(event) {
-      this.$emit("update:selectValue", event.target.value);
-      this.searchText = event.target.value
-    },
-    setPointerIdx(idx) {
-      this.pointer = idx;
-    },
-    seedSearchText() {
-      this.dropdownOpen = true
-      if (this.searchText !== null) {
-        return;
-      }
-
-      this.searchText = "";
-    },
-    switchToSearch(event) {
-      this.$emit("update:selectValue", event.target.value);
-      this.$refs.selectedValue.value = null;
-      this.searchText = event.target.value;
-      this.selectedOption = null;
-      this.dropdownOpen = true;
-    },
-    toggleDropdown() {
-      if (this.disabled) {
-        return;
-      }
-      this.dropdownOpen = !this.dropdownOpen;
-    },
-    closeOut() {
-      this.selectedOption = null;
-      this.dropdownOpen = false;
-      this.searchText = null;
-      this.$emit("update:selectValue", null);
-    },
-    movePointerDown() {
-      if (!this.matchingOptions) {
-        return;
-      }
-      if (this.pointer >= this.matchingOptions.length - 1) {
-        return;
-      }
-
-      this.pointer++;
-    },
-    movePointerUp() {
-      if (this.pointer > 0) {
-        this.pointer--;
-      }
-    },
-    setOption() {
-      if (!this.matchingOptions || !this.matchingOptions.length) {
-        return;
-      }
-
-      if (this.pointer === -1) {
-        this.pointer++;
-      }
-
-      this.selectedOption = this.matchingOptions[this.pointer];
-      this.searchText = null;
-      this.dropdownOpen = false;
-      this.pointer = -1;
-      this.$nextTick().then(() => {
-        this.$refs.match.focus();
-      });
-    },
-    handleClickOutside(e) {
-      if (this.$el.contains(e.target) || e.target.id === this.inputId) {
-        return;
-      }
-
-      this.dropdownOpen = false;
-    }
-  }
+    components: { ChevronDownIcon, ChevronUpIcon }
 };
 </script>
 <style scoped>

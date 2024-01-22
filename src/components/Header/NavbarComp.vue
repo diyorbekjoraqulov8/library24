@@ -4,11 +4,11 @@
     <div class="flex items-center justify-between 
     seven:hidden px-4 py-3 ss:py-5 ss:px-6 border-b border-b-gray-300">
       <a href="">
-        <img src="/phone.svg" class="h-6" alt="">
+        <PhoneIcon class="h-6 opacity-70" />
       </a>
 
       <router-link to="/">
-        <img src="/logo.svg" class="h-9" alt="">
+        <img src="/logo.svg" class="h-9" />
       </router-link>
 
       <div>
@@ -24,8 +24,10 @@
           <DisclosureButton class="text-black relative inline-flex items-center justify-center rounded-md p-2 hover:bg-[#F4F4FF] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
             <span class="absolute -inset-0.5" />
             <span class="sr-only">Open main menu</span>
-            <Bars3Icon v-if="!open" class="block h-7 w-7" aria-hidden="true" />
-            <XMarkIcon v-else class="block h-7 w-7" aria-hidden="true" />
+
+            <BarsIcon v-if="!open" class="block h-7 w-7" aria-hidden="true" />
+            <CloseIcon v-else class="block h-7 w-7" aria-hidden="true" />
+
           </DisclosureButton>
         </div>
         <div class="hidden seven:flex flex-1 items-center justify-center seven:items-stretch seven:justify-start">
@@ -93,7 +95,7 @@
                 @click="searchProduct(search)"
                 class="h-full flex items-center px-3 bg-[var(--purple)]"
               >
-                <img src="/search.svg" class="h-2/5" alt="">
+                <SearchIcon class="h-2/5 text-white" />
               </div>
             </template>
           </input-ui>
@@ -102,7 +104,7 @@
           to="/cart"
           class="navbarPage">
             <span class="sr-only">Cart page</span>
-            <img src="/cart.svg" class="w-6 h-6" alt="cart">
+            <CartIcon class="w-6 h-6 opacity-70" />
           </router-link>
 
           <router-link
@@ -110,7 +112,7 @@
           class="navbarPage">
             <div>
               <span class="sr-only">Like page</span>
-              <img src="/heart.svg" class="h-6 w-6" alt="heart">
+              <HeartIcon class="h-6 w-6" />
             </div>
           </router-link>
 
@@ -121,15 +123,14 @@
               v-if="store?.user?.id"
               class="relative flex rounded-[4px] bg-[#F4F4FF] text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 focus:ring-offset-white p-2.5 select-none">
                 <span class="sr-only">Open user menu</span>
-
-                <img src="/person.svg" class="h-6 w-6" alt="person">
+                <PersonIcon class="h-6 w-6" />
               </MenuButton>
 
               <router-link 
               v-else
               to="/login"
               class="relative flex rounded-[4px] bg-[#F4F4FF] text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 focus:ring-offset-white p-2.5 select-none">
-                <img src="/signin.svg" class="h-6 w-6" alt="person">
+                <SignInIcon class="h-6 w-6 opacity-70" />
               </router-link>
             </div>
             <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
@@ -171,7 +172,17 @@
 <script setup>
 import { ref, computed } from "vue";
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
-import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline';
+
+import PhoneIcon from "@/components/icons/PhoneIcon.vue";
+import BarsIcon from "@/components/icons/BarsIcon.vue";
+import CloseIcon from "@/components/icons/CloseIcon.vue";
+import SearchIcon from "@/components/icons/SearchIcon.vue";
+import CartIcon from "@/components/icons/CartIcon.vue";
+import HeartIcon from "@/components/icons/HeartIcon.vue";
+import PersonIcon from "@/components/icons/PersonIcon.vue";
+import SignInIcon from "@/components/icons/SignInIcon.vue";
+
+
 import { useAuthStore } from "@/stores/auth.js";
 import { useRouter, useRoute } from 'vue-router';
 

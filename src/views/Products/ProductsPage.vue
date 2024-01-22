@@ -56,7 +56,8 @@ import { onMounted } from "vue";
 import Product from "@/components/UI/ProductComp.vue";
 import { useCounterStore } from '@/stores/counter.js';
 import SkeletonLoader from '@/components/Loader/SkeletonLoader.vue';
-import { ChevronLeftIcon } from '@heroicons/vue/24/solid'
+import ChevronLeftIcon from '@/components/icons/ChevronLeftIcon.vue'
+
 
 const mainStore = useCounterStore()
 
