@@ -1,8 +1,8 @@
 <template>
   <div
   class="aspect-h-1 aspect-w-1 w-full h-auto overflow-hidden rounded-lg bg-white xl:aspect-h-8 xl:aspect-w-7 p-[14px] relative">
-  {{ product.created_date }}
-  {{ product.created_date > '2022' }}
+  <!-- {{ product.created_date }}
+  {{ product.created_date > '2022' }} -->
     <div class="mb-[14px] h-[180px]">
       <SkeletonLoader v-if="!product?.cover_url"/>
       <img v-else :src="product?.cover_url" alt="" class="object-contain h-[180px] w-full object-center mb-[14px]" />

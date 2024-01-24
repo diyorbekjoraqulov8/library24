@@ -75,6 +75,6 @@
 </template>
 
 <script setup>
-  import PlusIcon from '@/components/icons/PlusIcon.vue'
+import PlusIcon from '@/components/icons/PlusIcon.vue'
   
 </script>

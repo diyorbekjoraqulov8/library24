@@ -9,6 +9,7 @@ const AboutView = () => import("@/views/About/AboutView.vue");
 const LikeView = () => import("@/views/Like/LikeView.vue");
 const CartView = () => import("@/views/Cart/CartView.vue");
 const ProfilView = () => import("@/views/Profil/ProfilView.vue");
+const Products = () => import("../views/Admin/pages/products/Products.vue");
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -83,7 +84,7 @@ const router = createRouter({
         {
           path: '/admin/products',
           name: 'admin-products',
-          component: () => import("../views/Admin/pages/ProductsView.vue"),
+          component: Products,
         },
       ]
     }

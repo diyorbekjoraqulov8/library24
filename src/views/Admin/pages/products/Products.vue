@@ -2,10 +2,10 @@
   <div>
     <div 
     class="flex justify-between mb-2">
-      <base-input class="rounded-r-none">
+      <base-input class="rounded-r-none w-[300px]" placeholder="Mahsulotni qidirish...">
         <template #cell(append)>
-          <button class="px-2 bg-green-400 rounded-r-[4px]">
-            search
+          <button class="px-2 bg-purple-600 rounded-r-[4px]">
+            <SearchIcon class="text-white w-[20px]"/>
           </button>
         </template>
       </base-input>
@@ -46,7 +46,7 @@
             <EditIcon class="w-[20px]"/>
           </commom-btn>
 
-          <commom-btn @click="editProduct(item.id)" type="danger">
+          <commom-btn @click="deleteProduct(item.id)" type="danger">
             <DeleteIcon class="w-[20px]"/>
           </commom-btn>
         </td>
@@ -58,7 +58,10 @@
       class="max-w-[1100px]"
       :modal="modal"
     >
-      <AddAndEditProduct :modal="modal"/>
+      <template #cell(header)>
+        Mahsulot qo'shish
+      </template>
+      <ProductsForm :modal="modal"/>
     </ModalComp>
   </div>
 </template>
@@ -71,7 +74,7 @@ import EditIcon from '@/components/icons/EditIcon.vue'
 import BaseInput from "@/components/BaseComponents/BaseInput.vue";
 import CommomBtn from "@/components/buttons/CommomBtn.vue";
 import ModalComp from "@/components/Modal/ModalComp.vue";
-import AddAndEditProduct from "@/components/Modal/AddAndEditProduct.vue";
+import ProductsForm from "./ProductsForm.vue";
 
 import TableComp from "@/components/TableComp.vue";
 import { useAdminStore } from "@/stores/admin.js";

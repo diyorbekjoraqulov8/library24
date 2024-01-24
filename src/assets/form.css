@@ -1,3 +1,0 @@
-.input-ui {
-  @apply h-[34px] text-gray-800 border border-gray-400 focus:border-gray-900  placeholder-gray-500 focus:outline-none focus:bg-[#f4f4ff00] px-2.5;
-}
