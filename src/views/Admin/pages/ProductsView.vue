@@ -1,10 +1,19 @@
 <template>
   <div>
-    <!-- {{ rowsData }} -->
+    <base-input class="rounded-r-none">
+      <template #cell(append)>
+        <button class="px-2 bg-green-400 rounded-r-[4px]">
+          search
+        </button>
+      </template>
+    </base-input>
+
+    <br>
+    <br>
     <TableComp 
-      :headTable="columns"
-      :bodyTable="rowsData"
-      :dataLength="adminStore.productLength"
+      style="height: calc(100vh - 140px);"
+      :header="columns"
+      :data="rowsData"
       :loading="loading"
       @addProduct="addProduct()"
       @change="changePage($event)"
@@ -65,6 +74,7 @@
         </td>
       </template>
     </TableComp>
+    hi
   </div>
 </template>
 
@@ -73,6 +83,7 @@ import { ref, toRefs, onMounted, computed } from "vue";
 import SearchIcon from '@/components/icons/SearchIcon.vue'
 import DeleteIcon from '@/components/icons/DeleteIcon.vue'
 import EditIcon from '@/components/icons/EditIcon.vue'
+import BaseInput from "@/components/BaseComponents/BaseInput.vue";
 
 import TableComp from "@/components/TableComp.vue";
 import InputUi from "@/components/UI/Forms/Input-UI.vue";
@@ -91,50 +102,32 @@ const columns = ref([
   {
     id: 1,
     key:'title',
-    label: "Product name",
-    sort: {
-      category: 'title',
-    }
+    label: "Product name"
   },
   {
     id: 2,
     key:'author',
-    label: "Muallif",
-    sort: {
-      category: 'author',
-    }
+    label: "Muallif"
   },
   {
     id: 3,
     key:'genre',
-    label: "Janr",
-    sort: {
-      category: 'genre',
-    }
+    label: "Janr"
   },
   {
     id: 4,
     key:'length',
-    label: "Uzunligi",
-    sort: {
-      category: 'length',
-    }
+    label: "Uzunligi"
   },
   {
     id: 5,
     key:'published_date',
-    label: "Chiqarilgan Yil",
-    sort: {
-      category: 'published_date',
-    }
+    label: "Chiqarilgan Yil"
   },
   {
     id: 6,
     key:'price',
-    label: "Narxi",
-    sort: {
-      category: 'price',
-    }
+    label: "Narxi"
   }
 ])
 
