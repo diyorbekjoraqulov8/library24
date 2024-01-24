@@ -1,62 +1,67 @@
-import { ref } from 'vue';
+import { ref, shallowRef } from 'vue';
 import { defineStore } from 'pinia';
 import axios from 'axios';
 import { localStorageVerify } from "@/directives/verifyToken.js";
+
+import ShoppingCartIcon from '@/components/icons/ShoppingCartIcon.vue'
+import PieIcon from '@/components/icons/PieIcon.vue'
 
 export const useAdminStore = defineStore('admin', () => {
   // Variables
   const baseUrl = ref("https://library24.onrender.com/library/")
 
-  const menu = ref([
+  const menu = shallowRef([
     {
       id: 1,
       text: "Dashboard",
       name: "admin",
-      path: "/admin"
+      path: "/admin",
+      icon: PieIcon
     },
     {
       id: 2,
       text: "Products",
       name: "admin-products",
-      path: "/admin/products"
+      path: "/admin/products",
+      icon: ShoppingCartIcon
     },
-    {
-      id: 3,
-      text: "Orders",
-      name: "orders",
-      path: "/orders"
-    },
-    {
-      id: 4,
-      text: "E-commerse",
-      name: "e-commerse",
-      lists: [
-        {
-          id: 1,
-          text: "one",
-          name: "one",
-          path: "/admin"
-        },
-        {
-          id: 2,
-          text: "two",
-          name: "two",
-          path: "/admin"
-        },
-        {
-          id: 3,
-          text: "three",
-          name: "three",
-          path: "/admin"
-        },
-      ]
-    },
-    {
-      id: 5,
-      text: "Kaban",
-      name: "kaban",
-      path: "/admin"
-    }
+    // {
+    //   id: 3,
+    //   text: "Orders",
+    //   name: "orders",
+    //   path: "/orders"
+    // },
+    // {
+    //   id: 4,
+    //   text: "E-commerse",
+    //   name: "e-commerse",
+    //   lists: [
+    //     {
+    //       id: 1,
+    //       text: "one",
+    //       name: "one",
+    //       path: "/admin"
+    //     },
+    //     {
+    //       id: 2,
+    //       text: "two",
+    //       name: "two",
+    //       path: "/admin"
+    //     },
+    //     {
+    //       id: 3,
+    //       text: "three",
+    //       name: "three",
+    //       path: "/admin"
+    //     },
+    //   ]
+    // },
+    // {
+    //   id: 5,
+    //   text: "Kaban",
+    //   name: "kaban",
+    //   path: "/admin"
+    // }
   ])
   // const productList = ref([
   //   {
