@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { ref, shallowRef } from 'vue';
 import { defineStore } from 'pinia';
 import axios from 'axios';
 import { localStorageVerify } from "@/directives/verifyToken.js";
@@ -10,7 +10,7 @@ export const useAdminStore = defineStore('admin', () => {
   // Variables
   const baseUrl = ref("https://library24.onrender.com/library/")
 
-  const menu = ref([
+  const menu = shallowRef([
     {
       id: 1,
       text: "Dashboard",
