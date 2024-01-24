@@ -12,11 +12,11 @@
             :to="item.path"
             class="pageBtn"
             :class="{'bg-gray-200': item.name === currentPage}">
-              <PieIcon class="opacity-60" />
+              <component :is="item.icon" class="opacity-60"></component>
               <span class="ms-3">{{ item.text }}</span>
             </router-link>
 
-            <div v-else>
+            <!-- <div v-else>
               <button 
               @click="changeOpenBar(item.name, $event)"
               type="button" class="pageBtn w-full text-base transition duration-75" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
@@ -43,7 +43,7 @@
                     </router-link>
                 </li>
               </ul>
-            </div>
+            </div> -->
             
           </li>
         </ul>
