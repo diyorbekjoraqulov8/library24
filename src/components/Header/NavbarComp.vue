@@ -43,81 +43,49 @@
                 :to="item.path"
               >
                 <p>{{ item.name }}</p>
-                <!-- <a v-else :href="item.href">{{ item.name }}</a> -->
               </router-link>
-              <!-- <div v-for="item in navigation" :key="item.name" :class="[item.current ? 'bg-[#F4F4FF] text-[#333]' : 'text-[#333] hover:bg-[#F4F4FF]', 'rounded-md px-3 py-2 text-sm font-medium']" :aria-current="item.current ? 'page' : undefined">
-                <router-link v-if="item?.path" :to="item.path">{{ item.name }}</router-link>
-                <a v-else :href="item.href">{{ item.name }}</a>
-              </div> -->
             </div>
           </div>
         </div>
         <div class="min-[900px]:absolute inset-y-0 right-0 flex items-center gap-6 pr-2 max-[600px]:gap-1 sm:pr-0">
-          <!-- <div class="relative shadow-sm max-w-[260px] seven:w-[180px] lg:w-[240px]">
-            <input type="text" name="price" id="price" 
-            class="
-            rounded-[4px] 
-            border-0 
-            py-1.5 
-            pl-3 
-            pr-8 
-            text-black 
-            ring-1 
-            ring-inset 
-            ring-gray-300 
-            placeholder:text-gray-500 
-            focus:ring-inset 
-            focus:outline-none
-            text-sm 
-            leading-6 
-            h-[40px]
-            seven:h-[44px]
-            bg-[#F4F4FF]
-            focus:ring-gray-600
-            focus:bg-[#f4f4ff00]
-            w-full" 
-            placeholder="Search..." />
-            <div class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
-              <img src="/search.svg" class="h-2/5" alt="">
-            </div>
-          </div> -->
-          {{ search }}
-          <input-ui
-            :type="'text'"
-            v-model:search="search"
-            :placeholder="`Search...`"
-            :dynamicClasses="''"
-            :styles="{rounded:4}"
+          <base-input 
+            v-model:value="search"
             @enter="searchProduct(search)"
+            class="rounded-r-none" 
+            placeholder="Mahsulotni qidirish..."
           >
-            <template #cell(button)>
-              <div 
-                @click="searchProduct(search)"
-                class="h-full flex items-center px-3 bg-[var(--purple)]"
-              >
+            <template #cell(append)>
+              <button 
+              @click="searchProduct(search)"
+              class="px-2 bg-[var(--purple)] rounded-r-[4px]">
                 <SearchIcon class="h-2/5 text-white" />
-              </div>
+              </button>
             </template>
-          </input-ui>
+          </base-input>
 
           <router-link
           to="/cart"
           class="navbarPage">
-            <span class="sr-only">Cart page</span>
             <CartIcon class="w-6 h-6 opacity-70" />
+            <p>Savatcha</p>
           </router-link>
 
           <router-link
           to="/like"
           class="navbarPage">
-            <div>
-              <span class="sr-only">Like page</span>
-              <HeartIcon class="h-6 w-6" />
-            </div>
+            <HeartIcon class="h-6 w-6" />
+            <p>Savatcha</p>
           </router-link>
 
+          <div 
+            @click="authModal.open = true"
+            class="navbarPage cursor-pointer">
+            <PersonIcon class="h-6 w-6" 
+          />
+            <p>Kirish</p>
+          </div>
           <!-- Profile dropdown -->
-          <Menu as="div" class="relative hidden min-[900px]:block">
+          <!-- <Menu as="div" class="relative hidden min-[900px]:block">
             <div>
               <MenuButton 
               v-if="store?.user?.id"
@@ -153,7 +121,7 @@
                 </MenuItem>
               </MenuItems>
             </transition>
-          </Menu>
+          </Menu> -->
         </div>
       </div>
     </div>
@@ -167,6 +135,26 @@
       </div>
     </DisclosurePanel>
   </Disclosure>
+
+  <modal-comp :modal="authModal" class="max-w-[400px]">
+    <template #cell(header)>
+      Login
+    </template>
+    <form>
+      <div class="flex flex-col gap-2">
+        <BaseInput class="w-full h-[40px]" placeholder="Email kiriting"/>
+        <BaseInput class="w-full h-[40px]" placeholder="Parol kiriting"/>
+      </div>
+    </form>
+    <template #cell(footer)>
+      <common-btn type="alternative">
+        Bekor qilish
+      </common-btn>
+      <common-btn>
+        Saqlash
+      </common-btn>
+    </template>
+  </modal-comp>
 </template>
 
 <script setup>
@@ -181,10 +169,19 @@ import CartIcon from "@/components/icons/CartIcon.vue";
 import HeartIcon from "@/components/icons/HeartIcon.vue";
 import PersonIcon from "@/components/icons/PersonIcon.vue";
 import SignInIcon from "@/components/icons/SignInIcon.vue";
+import BaseInput from "../../components/BaseComponents/BaseInput.vue";
+import ModalComp from "@/components/Modal/ModalComp.vue";
+import CommonBtn from "../../components/buttons/CommonBtn.vue";
 
 
 import { useAuthStore } from "@/stores/auth.js";
 import { useRouter, useRoute } from 'vue-router';
+
+const authModal = ref({
+  loading:false,
+  open:false,
+  type:null
+})
 
 import InputUi from "@/components/UI/Forms/Input-UI.vue";
 
@@ -214,6 +211,6 @@ function searchProduct(text) {
 
 <style lang="css">
 .navbarPage {
-  @apply hidden min-[900px]:block relative rounded-[4px] bg-[#F4F4FF] p-2.5 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:ring-offset-white select-none
+  @apply text-xs flex flex-col items-center
 }
 </style>

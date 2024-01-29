@@ -4,7 +4,7 @@
       class="staticProductsTitle flex items-center mb-4 font-manrope leading-6 text-xl font-bold w-max bg-white p-2 pr-4 cursor-pointer sticky left-0 z-10"
     ># Yangi kelganlar <ChevronRightIcon class="h-5" /></h2>
     <!-- {{ mainStore.newProducts?.items }} -->
-    <div v-if="!mainStore.newProducts?.items?.length">
+    <div v-if="!products?.length">
       <Swiper 
         :navigation="true"
         :keyboard="true"
@@ -46,7 +46,7 @@
         :modules="modules"
         :breakpoints="swiperOption.breakpoints"
       >
-        <SwiperSlide v-for="product in mainStore.newProducts?.items" :key="product.id">
+        <SwiperSlide v-for="product in products" :key="product.id">
           <Product :product="product"/>
         </SwiperSlide>
       </Swiper>
@@ -55,14 +55,16 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import Product from "@/components/UI/ProductComp.vue";
 import { Swiper, SwiperSlide } from 'swiper/vue';
+import axios from "axios";
 import { useCounterStore } from '@/stores/counter.js';
 import SkeletonLoader from '../Loader/SkeletonLoader.vue';
 import ChevronRightIcon from "@/components/icons/ChevronRightIcon.vue";
 
 const mainStore = useCounterStore()
+const products = ref(null)
 
 // import required modules
 import { Navigation, Mousewheel, Keyboard, EffectFade, Autoplay } from 'swiper/modules';
@@ -94,9 +96,14 @@ const swiperOption = {
   }
 }
 
+async function getNewProducts() {
+  const baseUrl = import.meta.env.VITE_APP_SERVER_URL
+  let res = await axios.get(`${baseUrl}books/`)
+  products.value = res.data.results
+}
+
 onMounted(() => {
-  mainStore.getNewProducts()
+  getNewProducts()
 })
 
-// grid gap-x-[5px] gap-y-10 grid-cols-1 ss:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-y-[12px]
 </script>

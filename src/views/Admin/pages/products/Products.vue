@@ -52,7 +52,6 @@
         </td>
       </template>
     </TableComp>
-    hi
 
     <ModalComp
       class="max-w-[1100px]"

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-full h-max relative shadow-sm max-w-[260px] seven:w-[180px] lg:w-[240px]">
+  <div class="flex w-full h-max relative shadow-sm">
     <slot :name="`cell(prepend)`"/>
     <input 
       @input="$emit('update:value',$event.target.value)"

@@ -3,7 +3,6 @@
 @import "./tailwind.css";
 @import "./placeholder.css";
 @import './common.css';
-@import './form.css';
 
 /* Import Swiper styles */
 @import 'swiper/css';

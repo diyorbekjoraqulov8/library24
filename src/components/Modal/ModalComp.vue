@@ -5,7 +5,7 @@
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow-xl dark:bg-gray-700 flex flex-col max-h-full h-max border border-gray-400">
           <!-- Modal header -->
-          <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+          <div class="flex items-center justify-between px-4 py-3 md:py-3 md:px-4 border-b rounded-t dark:border-gray-600">
             <slot :name="`cell(header)`"></slot>
             <button @click="closeModal()"
             type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
@@ -18,7 +18,9 @@
           <div class="p-4 md:p-5 overflow-y-auto h-max">
             <slot></slot>
 
-            <slot :name="`cell(footer)`"></slot>
+            <div class="flex justify-end gap-2 mt-4">
+              <slot :name="`cell(footer)`"></slot>
+            </div>
           </div>
         </div>
       </div>
@@ -30,7 +32,10 @@
 import { toRefs, onMounted } from "vue";
 import CloseIcon from '@/components/icons/CloseIcon.vue'
 const props = defineProps({
-  modal: Object
+  modal: {
+    type:Object,
+    default:{}
+  }
 })
 const { modal } = toRefs(props)
 

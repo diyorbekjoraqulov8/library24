@@ -8,7 +8,7 @@
       </router-link>
       <div class="mx-auto max-w-xs ss:max-w-[1320px]">
         <div 
-        v-if="!mainStore.products?.length"
+        v-if="!products?.length"
         class="grid gap-x-[5px] gap-y-10 grid-cols-1 ss:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-y-[12px]">
           <div
           v-for="index in 10" :key="index">
@@ -42,27 +42,51 @@
         v-else
         class="grid gap-x-[5px] gap-y-10 grid-cols-1 ss:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-y-[12px]">
           <Product 
-          v-for="product in mainStore.products" :key="product.id"
-          :product="product"/>
-        </div>
-        
+          v-for="product in products" :key="product.id"
+          :product="product"
+          @buy="shopProduct($event)"
+          />
+        </div>        
       </div>
     </div>
   </div>
+
+  <modal-comp :modal="buyModal" class="w-[940px]">
+    {{ selectedBook }}
+  </modal-comp>
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import Product from "@/components/UI/ProductComp.vue";
 import { useCounterStore } from '@/stores/counter.js';
+import axios from "axios";
 import SkeletonLoader from '@/components/Loader/SkeletonLoader.vue';
-import ChevronLeftIcon from '@/components/icons/ChevronLeftIcon.vue'
-
+import ChevronLeftIcon from '@/components/icons/ChevronLeftIcon.vue';
+import ModalComp from "@/components/Modal/ModalComp.vue";
 
 const mainStore = useCounterStore()
+const products = ref(null)
+let selectedBook = ref(null)
+const buyModal = ref({
+  loading:false,
+  open:false,
+  type:null
+})
+
+async function getProducts() {
+  let res = await axios.get('https://library24.onrender.com/library/books/')
+  products.value = res.data.results
+}
+
+function shopProduct(id) {
+  selectedBook.value = id
+  buyModal.value.open = true
+  buyModal.value.type = 'buy-book'
+}
 
 onMounted(() => {
-  mainStore.getProducts()
+  getProducts()
 })
 
 </script>

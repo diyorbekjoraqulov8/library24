@@ -21,7 +21,7 @@
       </div>
       <p class="swiper-no-swiping text-lg font-semibold text-[#6251DD] leading-5">{{ product?.price }} so'm</p>
       <div class="flex gap-[8px] justify-between h-[35px] text-white">
-        <button class="select-none h-full bg-[#6251DD] flex-grow rounded-[8px]">Harid qilish</button>
+        <button class="select-none h-full bg-[#6251DD] flex-grow rounded-[8px]" @click="$emit('buy',product?.id)">Harid qilish</button>
         <button class="select-none w-[50px] h-full bg-[#EF6B4A] rounded-[8px] flex justify-center items-center">
           <CartIcon />
         </button>

@@ -7,8 +7,6 @@
     text-sm 
     px-3.5 
     py-1.5
-    me-2 
-    mb-2 
     focus:outline-none 
   "
   :class="type"

@@ -52,7 +52,7 @@ export const useCounterStore = defineStore('counter', () => {
   // Api Requests
   async function getProducts() {
     try {
-      let res = await axios.get(`https://library24.hvsniddin.repl.co/library/books/`)
+      let res = await axios.get(`${baseUrl.value}books/`)
       products.value = res?.data
     } catch (err) {
       console.log(err);

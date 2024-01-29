@@ -39,6 +39,10 @@ const props = defineProps({
         rounded: 4,
       }
     }
+  },
+  error: {
+    type:Object,
+    default:null
   }
 })
 const emit = defineEmits(['update:search']);

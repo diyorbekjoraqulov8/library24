@@ -8,8 +8,7 @@ import MobileMenu from "../components/Header/MobileMenu.vue";
 <template>
   <div class="relative">
     <nav id="navbar" 
-    class="bg-white border-b border-b-gray-300"
-    :class="{'sticky top-0 left-0 z-[11]': navbarSticky}">
+    class="bg-white border-b border-b-gray-300">
       <Navbar/>
     </nav>
     <main>
