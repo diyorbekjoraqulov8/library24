@@ -1,7 +1,8 @@
-from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.utils.dateparse import parse_datetime
+
 from rest_framework import status, generics, permissions, viewsets
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
@@ -9,6 +10,8 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from django_filters.rest_framework import DjangoFilterBackend
+
+from datetime import datetime
 
 from .serializers import GenreSerializer, RatingSerializer, SimpleAuthorSerializer, AuthorSerializer, BookSerializer
 from .models import Book, Author, Genre, Rating
@@ -33,16 +36,29 @@ class BookRetrieveUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
         return super(BookRetrieveUpdateDeleteAPIView, self).get_permissions()
 
 class BookListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Book.objects.all().order_by('-created_date')
+    # queryset = Book.objects.all().order_by('-created_date')
     serializer_class = BookSerializer
     lookup_field = 'id'
     
-    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    ordering_fields = ['copies_sold', 'created_date', 'published_date', 'length', 'price', 'discount']
     search_fields = ['title']
     filterset_fields = ['id', 'author', 'title', 'price', 'discount', 'genre']
     
 
     pagination_class = BookPagination
+
+    def get_queryset(self):
+        queryset = Book.objects.all().order_by('-created_date')
+        start_date = self.request.query_params.get("start_date")
+        end_date = start_date and self.request.query_params.get("end_date") or datetime.today()
+
+        if start_date is not None and end_date is not None:
+            start_date = parse_datetime(start_date)
+            # end_date = parse_datetime(end_date)
+            queryset = queryset.filter(created_date__range=(start_date,end_date))
+
+        return queryset
 
     def get_permissions(self):
         if self.request.method == 'GET':
